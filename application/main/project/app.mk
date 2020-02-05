@@ -1,4 +1,4 @@
-PROJECT_NAME     := ble_app_hids_keyboard_pca10040e_s112
+PROJECT_NAME     := ble_app_hids_keyboard_pca10056_s140
 TARGETS          := nrf52_kbd
 
 ifndef OUTPUT_DIRECTORY
@@ -9,13 +9,7 @@ ifndef TEMPLATE_PATH
 	TEMPLATE_PATH := $(ROOT_DIR)/template
 endif
 
-ifeq ($(NRF_CHIP), nrf52810)
-	include $(APP_PROJ_DIR)/nrf52810.mk
-else ifeq ($(NRF_CHIP), nrf52832)
-	include $(APP_PROJ_DIR)/nrf52832.mk
-else
-	$(error cannot handle NRF_CHIP [$(NRF_CHIP)])
-endif
+include $(APP_PROJ_DIR)/nrf52840.mk
 
 ifndef NRF_PACKAGE_NAME
 	NRF_PACKAGE_NAME := $(OUTPUT_DIRECTORY)/nrf52_kbd_$(VERSION).zip
@@ -229,31 +223,6 @@ ifdef CONFIG_H
 #    ASFLAGS += -include $(CONFIG_H)
 endif
 
-ifeq ($(SOFTDEVICE), S112)
-	CFLAGS += -DS112
-	ASMFLAGS += -DS112
-	SOFTDEVICE_NAME := s112_nrf52_6.1.1_softdevice.hex
-	SOFTDEVICE_VER  := 0xb8
-	SOFTDEVICE_PATH := $(SDK_ROOT)/components/softdevice/s112/hex/s112_nrf52_6.1.1_softdevice.hex
-	
-    INC_FOLDERS += \
-		$(SDK_ROOT)/components/softdevice/s112/headers/nrf52 \
-		$(SDK_ROOT)/components/softdevice/s112/headers
-
-else ifeq ($(SOFTDEVICE), S132)
-	CFLAGS += -DS132
-	ASMFLAGS += -DS132
-	SOFTDEVICE_NAME := s132_nrf52_6.1.1_softdevice.hex
-	SOFTDEVICE_VER  := 0xb7
-	SOFTDEVICE_PATH := $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_6.1.1_softdevice.hex
-	
-	INC_FOLDERS += \
-		$(SDK_ROOT)/components/softdevice/s132/headers/nrf52 \
-		$(SDK_ROOT)/components/softdevice/s132/headers
-
-else
-	$(error cannot handle softdevice [$(SOFTDEVICE)])
-endif
 
 # Linker flags
 LDFLAGS += $(OPT)

@@ -1,5 +1,5 @@
 COMMON_DIR = $(TMK_CORE_DIR)/common
-SRC_FILES +=	$(COMMON_DIR)/host.c \
+SRC_FILES += $(COMMON_DIR)/host.c \
 	$(COMMON_DIR)/keyboard.c \
 	$(COMMON_DIR)/matrix.c \
 	$(COMMON_DIR)/action.c \
