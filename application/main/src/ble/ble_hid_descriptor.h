@@ -2,6 +2,9 @@
 
 #include "report.h"
 
+/* Keyboard Protocol 1, HID 1.11 spec, Appendix B, page 59-60
+ * E.6 Report Descriptor (Keyboard), page 69
+ */
 static uint8_t hid_descriptor[] = {
     0x05, 0x01, // Usage Page (Generic Desktop)
     0x09, 0x06, // Usage (Keyboard)
@@ -41,6 +44,9 @@ static uint8_t hid_descriptor[] = {
 
     0xC0, // End Collection (Application)
 
+/* Keyboard Protocol 1, HID 1.11 spec, Appendix B, page 59-60
+ * E.10 Report Descriptor (Mouse), page 71
+ */
 #ifdef MOUSEKEY_ENABLE
     /* mouse */
     0x05, 0x01, // USAGE_PAGE (Generic Desktop)

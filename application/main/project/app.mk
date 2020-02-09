@@ -24,8 +24,8 @@ SRC_FILES += \
 	$(SDK_ROOT)/components/libraries/util/app_error_handler_gcc.c \
 	$(SDK_ROOT)/components/libraries/util/app_error_weak.c \
 	$(SDK_ROOT)/components/libraries/scheduler/app_scheduler.c \
-	$(SDK_ROOT)/components/libraries/timer/experimental/app_timer2.c \
-	$(SDK_ROOT)/components/libraries/timer/experimental/drv_rtc.c \
+	$(SDK_ROOT)/components/libraries/timer/app_timer2.c \
+	$(SDK_ROOT)/components/libraries/timer/drv_rtc.c \
 	$(SDK_ROOT)/components/libraries/sortlist/nrf_sortlist.c \
 	$(SDK_ROOT)/components/libraries/util/app_util_platform.c \
 	$(SDK_ROOT)/components/libraries/crc16/crc16.c \
@@ -140,7 +140,6 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/hardfault \
 	$(SDK_ROOT)/components/libraries/hci \
 	$(SDK_ROOT)/components/libraries/timer \
-	$(SDK_ROOT)/components/libraries/timer/experimental \
 	$(SDK_ROOT)/components/libraries/uart \
 	$(SDK_ROOT)/components/libraries/fifo \
 	$(SDK_ROOT)/integration/nrfx \
