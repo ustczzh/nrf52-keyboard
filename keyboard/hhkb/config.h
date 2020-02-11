@@ -94,12 +94,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PIN_CHARGING !UCC1 // CH554的充电检测。当UCC1拉低时表示正在充电
 #define PIN_STANDBY !UCC2 // CH554的充电检测。当UCC2拉低时表示充电完成。若不配置则只使用PIN_CHARGING作为是否充电的检测标志
 
+// for HHKB only
+//#define HHKB_JP
+#define HHKB_POWER_SAVING
+
 // 按键阵列配置
-#define MATRIX_ROWS 5 /* 硬件阵列行数 */
-#define MATRIX_COLS 14 /* 硬件阵列列数 */
-static const uint8_t row_pin_array[MATRIX_ROWS] = { 25, 28, 29, 30, 26 };
-static const uint8_t column_pin_array[MATRIX_COLS] = { 16, 15, 14, 13, 12, 11, 27, 3, 4, 5, 6, 7, 8, 9 };
-#define ROW_IN // 键盘阵列的二极管方向是从COL->ROW
+/* matrix size */
+#ifdef HHKB_JP
+#   define MATRIX_ROWS 16
+#else
+#   define MATRIX_ROWS 8
+#endif
+#define MATRIX_COLS 8
+
+static const uint8_t row0_pin = 11;
+static const uint8_t row1_pin = 12;
+static const uint8_t row2_pin = 13;
+static const uint8_t col0_pin = 14;
+static const uint8_t col1_pin = 15;
+static const uint8_t col3_pin = 16;
+static const uint8_t col_sel_pin = 17;
+static const uint8_t hys_pin = 18;
+static const uint8_t key_pin = 19;
+static const uint8_t power_pin = 20;
+/**
+ * @brief HHKB pin for nrf52840
+ * row:     11,12,13
+ * col:     14,15,16,17
+ * key:     18(pull-uped)
+ * prev:    19
+ * power:   20(L:off/H:on)
+ */
+#define HHKB_PIN_NUM 7
+static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
+    row0_pin, row1_pin, row2_pin, col0_pin, col1_pin, col2_pin, \
+    hys_pin };
+
 
 /* define if matrix has ghost */
 // #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */

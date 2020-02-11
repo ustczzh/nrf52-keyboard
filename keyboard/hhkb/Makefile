@@ -21,6 +21,7 @@ EXTRAKEY_ENABLE = yes	# 启用媒体键功能
 NKRO_ENABLE = yes	# 启用USB的全键无冲功能
 USB_6KRO_ENABLE = yes # 启用USB的六键无冲功能
 UNIMAP_ENABLE = yes
+MOUSEKEY_ENABLE = yes
 
 ########## STOP HERE ##########
 # 除非你知道下面这些配置项是干什么的，否则不要去动它
