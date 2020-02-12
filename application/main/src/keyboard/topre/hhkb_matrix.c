@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../config/keyboard_config.h"
 #include "ble_keyboard.h"
-#include "keyboard_matrix.h"
 #include "matrix.h"
 
 #include "print.h"
@@ -39,29 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util.h"
 #include "lufa.h"
 
-#ifndef DEBOUNCE
-#define DEBOUNCE 1
-#endif
 
-static uint8_t debouncing = DEBOUNCE;
-
-/* matrix state(1:on, 0:off) */
-static matrix_row_t matrix[MATRIX_ROWS];
-static matrix_row_t matrix_debouncing[MATRIX_ROWS];
-
-static matrix_row_t read_cols(void);
-static void select_row(uint8_t row);
-static void unselect_rows(void);
-
-#ifdef ROW_IN
-#define READ_COL(pin) (!nrf_gpio_pin_read(pin))
-#else
-#define READ_COL(pin) nrf_gpio_pin_read(pin)
-#endif
-
-
-// matrix power saving
-#define MATRIX_POWER_SAVE       10000
+// matrix power saving. 32768 ticks/second * 100 second
+#define MATRIX_POWER_SAVE       3276800
 static uint32_t matrix_last_modified = 0;
 
 // matrix state buffer(1:on, 0:off)
@@ -89,7 +68,7 @@ void matrix_init(void)
 
 uint8_t matrix_scan(void)
 {
-    uint8_t *tmp;
+    matrix_row_t *tmp;
 
     tmp = matrix_prev;
     matrix_prev = matrix;
@@ -97,22 +76,25 @@ uint8_t matrix_scan(void)
 
     // power on
     if (!KEY_POWER_STATE()) KEY_POWER_ON();
-    uint8_t row,col;
+    matrix_row_t row,col;
     for (row = 0; row < MATRIX_ROWS; row++) {
         for (col = 0; col < MATRIX_COLS; col++) {
             KEY_SELECT(row, col);
-            _delay_us(5);
+            //_delay_us(5);
+            nrf_delay_us((uint32_t)5);
 
             // Not sure this is needed. This just emulates HHKB controller's behaviour.
             if (matrix_prev[row] & (1<<col)) {
                 KEY_PREV_ON();
             }
-            _delay_us(10);
+            //_delay_us(10);
+            nrf_delay_us((uint32_t)10);
 
             // NOTE: KEY_STATE is valid only in 20us after KEY_ENABLE.
             // If V-USB interrupts in this section we could lose 40us or so
             // and would read invalid value from KEY_STATE.
-            uint8_t last = TIMER_RAW;
+            //uint8_t last = TIMER_RAW;
+            uint32_t last = timer_read32();
 
             KEY_ENABLE();
 
@@ -128,7 +110,8 @@ uint8_t matrix_scan(void)
             // 10us wait does    work on Teensy++ with pro
             // 10us wait does    work on 328p+iwrap with pro
             // 10us wait doesn't work on tmk PCB(8MHz) with pro2(very lagged scan)
-            _delay_us(5);
+            //_delay_us(5);
+            nrf_delay_us((uint32_t)5);
 
             if (KEY_STATE()) {
                 matrix[row] &= ~(1<<col);
@@ -139,11 +122,16 @@ uint8_t matrix_scan(void)
             // Ignore if this code region execution time elapses more than 20us.
             // MEMO: 20[us] * (TIMER_RAW_FREQ / 1000000)[count per us]
             // MEMO: then change above using this rule: a/(b/c) = a*1/(b/c) = a*(c/b)
-            if (TIMER_DIFF_RAW(TIMER_RAW, last) > 20/(1000000/TIMER_RAW_FREQ)) {
+            //if (TIMER_DIFF_RAW(TIMER_RAW, last) > 20/(1000000/TIMER_RAW_FREQ)) {
+            //    matrix[row] = matrix_prev[row];
+            //}
+            //(RTC_DEFAULT_CONFIG_FREQUENCY*20/1000000) = 0.65536
+            if (timer_elapsed32(uint32_t last) > 0) {
                 matrix[row] = matrix_prev[row];
             }
 
-            _delay_us(5);
+            //_delay_us(5);
+            nrf_delay_us((uint32_t)5);
             KEY_PREV_OFF();
             KEY_UNABLE();
 
@@ -152,9 +140,11 @@ uint8_t matrix_scan(void)
 #ifdef HHKB_JP
             // Looks like JP needs faster scan due to its twice larger matrix
             // or it can drop keys in fast key typing
-            _delay_us(30);
+            //_delay_us(30);
+            nrf_delay_us((uint32_t)30);
 #else
-            _delay_us(75);
+            //_delay_us(75);
+            nrf_delay_us((uint32_t)75);
 #endif
         }
         if (matrix[row] ^ matrix_prev[row]) matrix_last_modified = timer_read32();

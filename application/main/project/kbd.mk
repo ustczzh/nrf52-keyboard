@@ -15,27 +15,30 @@ ifndef SDK_ROOT
 endif
 
 # project specific files
-SRC_FILES += $(APP_SRC_DIR)/keyboard/keyboard_matrix.c \
-    $(APP_SRC_DIR)/keyboard/host_driver.c \
-    $(APP_SRC_DIR)/keyboard/ble_keyboard.c \
+SRC_FILES +=  \
+    $(APP_SRC_DIR)/keyboard/$(KEYBOARD_FRAMEWORK)/keyboard_matrix.c \
+    $(APP_SRC_DIR)/keyboard/common/host_driver.c \
+    $(APP_SRC_DIR)/keyboard/common/ble_keyboard.c \
     $(APP_SRC_DIR)/tmk/keyboard_timer.c \
     $(APP_SRC_DIR)/tmk/glue_layer.c \
-    $(APP_SRC_DIR)/keyboard/keyboard_fn.c \
-    $(APP_SRC_DIR)/keyboard/keyboard_led.c \
-    $(APP_SRC_DIR)/keyboard/passkey.c \
-    $(APP_SRC_DIR)/keyboard/keyboard_bootmagic.c \
-    $(APP_SRC_DIR)/keyboard/data_storage.c \
-    $(APP_SRC_DIR)/protocol/hid_configuration.c \
-    $(APP_SRC_DIR)/keyboard/sleep_reason.c \
-    $(APP_SRC_DIR)/keyboard/keyboard_evt.c \
-    $(APP_SRC_DIR)/keyboard/store_config.c \
-    $(APP_SRC_DIR)/protocol/usb_comm.c \
-    $(APP_SRC_DIR)/protocol/ble_comm.c \
-    $(APP_SRC_DIR)/keyboard/macro_player.c \
-    $(APP_SRC_DIR)/keyboard/power_save.c \
-    $(APP_SRC_DIR)/keyboard/adc_convert.c \
+    $(APP_SRC_DIR)/keyboard/common/keyboard_fn.c \
+    $(APP_SRC_DIR)/keyboard/common/keyboard_led.c \
+    $(APP_SRC_DIR)/keyboard/common/passkey.c \
+    $(APP_SRC_DIR)/keyboard/common/keyboard_bootmagic.c \
+    $(APP_SRC_DIR)/keyboard/common/data_storage.c \
+    $(APP_SRC_DIR)/protocol/common/hid_configuration.c \
+    $(APP_SRC_DIR)/keyboard/common/sleep_reason.c \
+    $(APP_SRC_DIR)/keyboard/common/keyboard_evt.c \
+    $(APP_SRC_DIR)/keyboard/common/store_config.c \
+    $(APP_SRC_DIR)/protocol/common/usb_comm.c \
+    $(APP_SRC_DIR)/protocol/common/ble_comm.c \
+    $(APP_SRC_DIR)/keyboard/common/macro_player.c \
+    $(APP_SRC_DIR)/keyboard/common/power_save.c \
+    $(APP_SRC_DIR)/keyboard/common/adc_convert.c \
 
-INC_FOLDERS += $(APP_SRC_DIR)/keyboard \
+INC_FOLDERS +=  \
+    $(APP_SRC_DIR)/keyboard/$(KEYBOARD_FRAMEWORK) \
+    $(APP_SRC_DIR)/keyboard/common \
     $(APP_SRC_DIR)/tmk \
     $(APP_SRC_DIR)/protocol
 

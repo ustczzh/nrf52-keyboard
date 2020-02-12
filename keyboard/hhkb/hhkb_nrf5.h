@@ -87,6 +87,7 @@ Vcc and GND use 3(2) lines each, other lines are for keyboard signaling.
 /**
  * @brief nRF5的GPIO函数
  * uint32_t pin_number      :引脚编号，bit0~31对应引脚P0.00~P0.31
+ * nrf_gpio_cfg_default     (uint32_t pin_number):释放GPIO状态，恢复最低功耗。
  * 
  * nrf_gpio_cfg_output      (uint32_t pin_number):设置指定引脚为输出方向。
  * nrf_gpio_pin_set         (uint32_t pin_number):驱动指定的GPIO输出高电平

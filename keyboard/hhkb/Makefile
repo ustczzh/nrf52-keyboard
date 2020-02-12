@@ -23,6 +23,9 @@ USB_6KRO_ENABLE = yes # 启用USB的六键无冲功能
 UNIMAP_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 
+#KEYBOARD_FRAMEWORK = mx
+KEYBOARD_FRAMEWORK = topre
+
 ########## STOP HERE ##########
 # 除非你知道下面这些配置项是干什么的，否则不要去动它
 

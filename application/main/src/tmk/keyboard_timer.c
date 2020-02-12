@@ -32,7 +32,8 @@ void timer_clear()
 
 inline uint16_t timer_read()
 {
-    return (uint16_t)(timer_read32() % 0xFFFF);
+    //return (uint16_t)(timer_read32() % 0xFFFF);
+    return (uint16_t)(timer_read32() % 65536);
 }
 
 inline uint32_t timer_read32()
@@ -43,7 +44,8 @@ inline uint32_t timer_read32()
 
     // but, tmk does not use 32bit timer
     time = app_timer_cnt_get();
-    return time / 32;
+    //return time / 32;
+    return time;
 }
 
 inline uint16_t timer_elapsed(uint16_t last)
@@ -54,6 +56,8 @@ inline uint16_t timer_elapsed(uint16_t last)
 inline uint32_t timer_elapsed32(uint32_t last)
 {
     uint32_t time = app_timer_cnt_get();
-    uint32_t elapsed = app_timer_cnt_diff_compute(time, last * 32);
-    return elapsed / 32;
+    //uint32_t elapsed = app_timer_cnt_diff_compute(time, last * 32);
+    //return elapsed / 32;
+    uint32_t elapsed = app_timer_cnt_diff_compute(time, last);
+    return elapsed;
 }
