@@ -16,13 +16,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "ble_keyboard.h" // self
-#include "../config/keyboard_config.h"
+#include "../../config/keyboard_config.h"
 #include "app_timer.h" // nordic
 #include "keyboard.h" // tmk
 #include "keyboard_host_driver.h"
 #include <stdint.h>
 
-#include "../main.h"
+#include "../../main.h"
 #include "data_storage.h"
 #include "hook.h"
 #include "keyboard_evt.h"

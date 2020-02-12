@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "keyboard_fn.h"
-#include "../main.h"
+#include "../../main.h"
 #include "usb_comm.h"
 
 #include "bootloader.h"

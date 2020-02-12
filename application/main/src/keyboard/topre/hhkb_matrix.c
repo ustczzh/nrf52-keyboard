@@ -29,10 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "hhkb_nrf5.h"
 
-#include "../config/keyboard_config.h"
+#include "../../config/keyboard_config.h"
 #include "ble_keyboard.h"
-#include "matrix.h"
 
+#include "matrix.h"
 #include "print.h"
 #include "debug.h"
 #include "util.h"

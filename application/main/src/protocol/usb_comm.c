@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "usb_comm.h"
-#include "../config/keyboard_config.h"
+#include "../../config/keyboard_config.h"
 #include "app_error.h"
 #include "app_uart.h"
 #include "nrf.h"
@@ -26,8 +26,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <string.h>
 
-#include "../ble/ble_hid_service.h"
-#include "../main.h"
+#include "../../ble/ble_hid_service.h"
+#include "../../main.h"
 #include "app_timer.h"
 #include "hid_configuration.h"
 #include "host.h"

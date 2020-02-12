@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "ble_bas.h"
 #include "ble_config.h"
 
-#include "../config/keyboard_config.h"
+#include "../../config/keyboard_config.h"
 #include "adc_convert.h"
 
 #define ADC_BUFFER_SIZE 6
