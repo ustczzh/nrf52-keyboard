@@ -74,6 +74,12 @@ __attribute__((weak)) void action_function(keyrecord_t* record, uint8_t id, uint
 #ifdef HAS_USB
                 usb_comm_switch();
 #endif
+#ifdef HAS_USBD_NRF
+                usbd_nrf_switch();
+#endif
+#ifdef HAS_USB_HOST
+                usb_host_switch();
+#endif
                 break;
 
             default:

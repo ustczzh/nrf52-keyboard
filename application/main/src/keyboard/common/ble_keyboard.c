@@ -212,6 +212,12 @@ void ble_keyboard_init(void)
 #ifdef HAS_USB
     usb_comm_init(); // 初始化USB通讯
 #endif
+#ifdef HAS_USBD_NRF
+    usbd_nrf_init(); // 初始化USB通讯
+#endif
+#ifdef HAS_USB_HOST
+    usb_host_init(); // 初始化USB通讯
+#endif
     keyboard_init(); // 初始化键盘所需的其他东西，包括按键阵列和Bootmagic
     // - timer_init();
     // - matrix_init();

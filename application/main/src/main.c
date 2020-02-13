@@ -88,12 +88,12 @@
 
 #include "main.h"
 
-#include "keyboard/adc_convert.h"
-#include "keyboard/ble_keyboard.h"
-#include "keyboard/keyboard_bootcheck.h"
-#include "keyboard/keyboard_evt.h"
-#include "keyboard/keyboard_led.h"
-#include "keyboard/keyboard_matrix.h"
+#include "keyboard/common/adc_convert.h"
+#include "keyboard/common/ble_keyboard.h"
+#include "keyboard/common/keyboard_bootcheck.h"
+#include "keyboard/common/keyboard_evt.h"
+#include "keyboard/common/keyboard_led.h"
+//#include "keyboard/mx/keyboard_matrix.h"
 #include "protocol/usb_comm.h"
 
 #define DEAD_BEEF 0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
@@ -215,6 +215,12 @@ static void timers_start(void)
 #ifdef HAS_USB
     usb_comm_timer_start();
 #endif
+#ifdef HAS_USBD_NRF
+    usbd_nrf_timer_start();
+#endif
+#ifdef HAS_USB_HOST
+    usb_host_timer_start();
+#endif
     adc_timer_start();
 }
 
@@ -228,6 +234,12 @@ static void sleep_mode_enter(void)
     matrix_sleep_prepare(); // 准备按键阵列用于唤醒
 #ifdef HAS_USB
     usb_comm_sleep_prepare();
+#endif
+#ifdef HAS_USBD_NRF
+    usbd_nrf_sleep_prepare();
+#endif
+#ifdef HAS_USB_HOST
+    usb_host_sleep_prepare();
 #endif
 
     // Go to system-off mode (this function will not return; wakeup will cause a reset).

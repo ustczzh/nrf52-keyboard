@@ -99,8 +99,15 @@ __attribute__((weak)) void boot_check()
         sleep_flag = !keypress_check();
 #ifdef HAS_USB
         // 若连接至主机则自动开机
-        if (usb_working())
-            sleep_flag &= false;
+        if (usb_working()) sleep_flag &= false;
+#endif
+#ifdef HAS_USBD_NRF
+        // 若连接至主机则自动开机
+        if (usb_working()) sleep_flag &= false;
+#endif
+#ifdef HAS_USB_HOST
+        // 若连接至主机则自动开机
+        if (usb_working()) sleep_flag &= false;
 #endif
     }
 

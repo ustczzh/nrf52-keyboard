@@ -131,7 +131,7 @@ enum usb_state {
  * HID 的协议
  */
 enum hid_protocol_type {
-    HID_BOOT_PROTOCOL, // bool protocol
+    HID_BOOT_PROTOCOL, // boot protocol
     HID_REPORT_PROTOCOL, // report protocol
 };
 

@@ -50,7 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DYNAMIC_TX_POWER /* 启用自动发射功率调整 */
 #define PASSKEY_REQUIRED /* 需要输入配对码 */
 #define ENABLE_WATCHDOG /* 启用看门狗 */
-#define KEYMAP_STORAGE /* 启用keymap存储 */
+//#define KEYMAP_STORAGE /* 启用keymap存储 */
+#define UNIMAP_STORAGE /* 启用unimap存储 */
 // #define MACRO_BLOCKING_MODE /* 在宏播放时禁用其他按键输入 */
 #define MACRO_STORAGE /* 启用宏存储功能 */
 #define CONFIG_STORAGE /* 启用配置存储功能 */
@@ -82,6 +83,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // USB UART 传输配置
 #define HAS_USB // 启用与CH554的通信支持
+#define HAS_USBD_NRF  // 启用nRF52840的usbd
+#define HAS_USB_HOST // 启用与MAX3421e的通信支持
 #define UART_RXD 17 // UART_RX口IO
 #define UART_TXD 18 // UART_TX口IO
 #define UART_DET 19 // UART 检测引脚，若此脚被拉低，则说明USB正在工作。若不配置则使用RX口作为检测引脚
