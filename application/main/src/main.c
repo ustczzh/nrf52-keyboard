@@ -88,12 +88,13 @@
 
 #include "main.h"
 
-#include "keyboard/common/adc_convert.h"
-#include "keyboard/common/ble_keyboard.h"
-#include "keyboard/common/keyboard_bootcheck.h"
-#include "keyboard/common/keyboard_evt.h"
-#include "keyboard/common/keyboard_led.h"
-//#include "keyboard/mx/keyboard_matrix.h"
+#include "keyboard/adc_convert.h"
+#include "keyboard/ble_keyboard.h"
+#include "keyboard/keyboard_bootcheck.h"
+#include "keyboard/keyboard_command.h"
+#include "keyboard/keyboard_evt.h"
+#include "keyboard/keyboard_led.h"
+#include "keyboard/keyboard_matrix.h"
 #include "protocol/usb_comm.h"
 
 #define DEAD_BEEF 0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
@@ -195,6 +196,9 @@ static void timers_init(void)
 
     err_code = app_timer_init();
     APP_ERROR_CHECK(err_code);
+#ifdef COMMAND_ENABLE
+    command_timer_init();
+#endif
 }
 
 /**@brief Function for initializing services that will be used by the application.
@@ -215,12 +219,6 @@ static void timers_start(void)
 #ifdef HAS_USB
     usb_comm_timer_start();
 #endif
-#ifdef HAS_USBD_NRF
-    usbd_nrf_timer_start();
-#endif
-#ifdef HAS_USB_HOST
-    usb_host_timer_start();
-#endif
     adc_timer_start();
 }
 
@@ -234,12 +232,6 @@ static void sleep_mode_enter(void)
     matrix_sleep_prepare(); // 准备按键阵列用于唤醒
 #ifdef HAS_USB
     usb_comm_sleep_prepare();
-#endif
-#ifdef HAS_USBD_NRF
-    usbd_nrf_sleep_prepare();
-#endif
-#ifdef HAS_USB_HOST
-    usb_host_sleep_prepare();
 #endif
 
     // Go to system-off mode (this function will not return; wakeup will cause a reset).
@@ -299,7 +291,7 @@ static void power_management_init(void)
     err_code = nrf_pwr_mgmt_init();
     APP_ERROR_CHECK(err_code);
 
-    sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
+    sd_power_dcdc_mode_set(1);
 }
 
 /**@brief Function for handling the idle state (main loop).

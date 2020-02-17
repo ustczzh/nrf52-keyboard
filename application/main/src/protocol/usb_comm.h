@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "../../config/keyboard_config.h"
+#include "../config/keyboard_config.h"
 
 /**
  * @brief 当前USB是否正常连接到主机

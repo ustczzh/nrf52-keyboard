@@ -1,5 +1,5 @@
 #pragma once
-#include "../../config/keyboard_config.h"
+#include "../config/keyboard_config.h"
 
 #ifdef PASSKEY_REQUIRED
 #define SEC_CURRENT SEC_MITM
