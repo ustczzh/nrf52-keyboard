@@ -36,6 +36,9 @@ const uint32_t keyboard_function_table =
 #ifdef NKRO_ENABLE
     (1 << 3) +
 #endif
+#ifdef UNIMAP_STORAGE
+    (1 << 7) +
+#endif
 #ifdef KEYMAP_STORAGE
     (1 << 8) +
 #endif

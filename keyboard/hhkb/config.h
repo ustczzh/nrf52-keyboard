@@ -76,6 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)))
 
 // LED 配置
+#define HAS_LED 0
 #define LED_NUM 22
 #define LED_CAPS 21
 #define LED_SCLK 23
