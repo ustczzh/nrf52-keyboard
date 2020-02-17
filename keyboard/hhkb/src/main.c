@@ -91,6 +91,7 @@
 #include "keyboard/common/adc_convert.h"
 #include "keyboard/common/ble_keyboard.h"
 #include "keyboard/common/keyboard_bootcheck.h"
+#include "keyboard/common/keyboard_command.h"
 #include "keyboard/common/keyboard_evt.h"
 #include "keyboard/common/keyboard_led.h"
 //#include "keyboard/mx/keyboard_matrix.h"
@@ -195,6 +196,9 @@ static void timers_init(void)
 
     err_code = app_timer_init();
     APP_ERROR_CHECK(err_code);
+#ifdef COMMAND_ENABLE
+    command_timer_init();
+#endif
 }
 
 /**@brief Function for initializing services that will be used by the application.
