@@ -16,7 +16,7 @@ ifndef APP_PROJ_DIR
 endif
 
 ifndef ROOT_DIR
-  ROOT_DIR := ../../../..
+  ROOT_DIR := ../../../../..
 endif
 
 ifndef SDK_ROOT
