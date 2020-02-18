@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "nrf_delay.h"
 #include "nrf_gpio.h"
 
-#include "../../config/keyboard_config.h"
+#include "../config/keyboard_config.h"
 #include "ble_keyboard.h"
 #include "debug.h"
 #include "keyboard_matrix.h"

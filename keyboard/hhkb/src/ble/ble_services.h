@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ble.h"
-#include "../../main.h"
+#include "../main.h"
 #include "ble_advertising.h"
 #include <stdbool.h>
 #include <stdint.h>

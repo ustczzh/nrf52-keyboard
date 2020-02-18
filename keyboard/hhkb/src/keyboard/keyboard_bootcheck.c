@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../../main.h"
+#include "../main.h"
 #include "bootmagic.h"
 #include "config.h"
 #include "hook.h"

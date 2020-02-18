@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "../../config/keyboard_config.h"
+#include "../config/keyboard_config.h"
 
 /**
  * @brief 设置LED灯光值

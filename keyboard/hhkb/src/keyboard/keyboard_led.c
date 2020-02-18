@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "keyboard_led.h"
 
-#include "../../main.h"
+#include "../main.h"
 #include "keyboard_evt.h"
 #include "nrf_gpio.h"
 #include "power_save.h"

@@ -16,8 +16,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "keyboard_evt.h"
-#include "../../ble/ble_hid_service.h"
-#include "../../ble/ble_services.h"
+#include "../ble/ble_hid_service.h"
+#include "../ble/ble_services.h"
 #include "ble_keyboard.h"
 #include "host.h"
 #include "passkey.h"

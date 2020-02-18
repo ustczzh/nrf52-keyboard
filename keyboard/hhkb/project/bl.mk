@@ -1,5 +1,5 @@
 ifndef BOOTLOADER_DIR
-  BOOTLOADER_DIR := $(ROOT_DIR)/application/bootloader/secure_bootloader/nrf52840
+  BOOTLOADER_DIR := $(ROOT_DIR)/keyboard/hhkb/bootloader/secure_bootloader/nrf52840
 endif
 
 export NRF_CHIP SOFTDEVICE NRF52_DISABLE_FPU

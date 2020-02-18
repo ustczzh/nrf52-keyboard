@@ -1,4 +1,4 @@
-PROJECT_NAME     := ble_app_hids_keyboard_pca10056_s140
+PROJECT_NAME     := ble_app_hids_keyboard_pca10040e_s112
 TARGETS          := nrf52_kbd
 
 ifndef OUTPUT_DIRECTORY
@@ -9,7 +9,13 @@ ifndef TEMPLATE_PATH
 	TEMPLATE_PATH := $(ROOT_DIR)/template
 endif
 
-include $(APP_PROJ_DIR)/nrf52840.mk
+ifeq ($(NRF_CHIP), nrf52810)
+	include $(APP_PROJ_DIR)/nrf52810.mk
+else ifeq ($(NRF_CHIP), nrf52832)
+	include $(APP_PROJ_DIR)/nrf52832.mk
+else
+	$(error cannot handle NRF_CHIP [$(NRF_CHIP)])
+endif
 
 ifndef NRF_PACKAGE_NAME
 	NRF_PACKAGE_NAME := $(OUTPUT_DIRECTORY)/nrf52_kbd_$(VERSION).zip
@@ -24,8 +30,8 @@ SRC_FILES += \
 	$(SDK_ROOT)/components/libraries/util/app_error_handler_gcc.c \
 	$(SDK_ROOT)/components/libraries/util/app_error_weak.c \
 	$(SDK_ROOT)/components/libraries/scheduler/app_scheduler.c \
-	$(SDK_ROOT)/components/libraries/timer/app_timer2.c \
-	$(SDK_ROOT)/components/libraries/timer/drv_rtc.c \
+	$(SDK_ROOT)/components/libraries/timer/experimental/app_timer2.c \
+	$(SDK_ROOT)/components/libraries/timer/experimental/drv_rtc.c \
 	$(SDK_ROOT)/components/libraries/sortlist/nrf_sortlist.c \
 	$(SDK_ROOT)/components/libraries/util/app_util_platform.c \
 	$(SDK_ROOT)/components/libraries/crc16/crc16.c \
@@ -64,17 +70,17 @@ SRC_FILES += \
 	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c \
 	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c \
 	$(SDK_ROOT)/components/ble/peer_manager/auth_status_tracker.c \
-	$(SDK_ROOT)/components/ble/ble_advertising/ble_advertising.c \
-	$(SDK_ROOT)/components/ble/ble_link_ctx_manager/ble_link_ctx_manager.c \
 	$(SDK_ROOT)/components/ble/common/ble_advdata.c \
+	$(SDK_ROOT)/components/ble/ble_advertising/ble_advertising.c \
 	$(SDK_ROOT)/components/ble/common/ble_conn_params.c \
 	$(SDK_ROOT)/components/ble/common/ble_conn_state.c \
+	$(SDK_ROOT)/components/ble/ble_link_ctx_manager/ble_link_ctx_manager.c \
 	$(SDK_ROOT)/components/ble/common/ble_srv_common.c \
-	$(SDK_ROOT)/components/ble/nrf_ble_gatt/nrf_ble_gatt.c \
-	$(SDK_ROOT)/components/ble/nrf_ble_qwr/nrf_ble_qwr.c \
 	$(SDK_ROOT)/components/ble/peer_manager/gatt_cache_manager.c \
 	$(SDK_ROOT)/components/ble/peer_manager/gatts_cache_manager.c \
 	$(SDK_ROOT)/components/ble/peer_manager/id_manager.c \
+	$(SDK_ROOT)/components/ble/nrf_ble_gatt/nrf_ble_gatt.c \
+	$(SDK_ROOT)/components/ble/nrf_ble_qwr/nrf_ble_qwr.c \
 	$(SDK_ROOT)/components/ble/peer_manager/peer_data_storage.c \
 	$(SDK_ROOT)/components/ble/peer_manager/peer_database.c \
 	$(SDK_ROOT)/components/ble/peer_manager/peer_id.c \
@@ -140,6 +146,7 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/hardfault \
 	$(SDK_ROOT)/components/libraries/hci \
 	$(SDK_ROOT)/components/libraries/timer \
+	$(SDK_ROOT)/components/libraries/timer/experimental \
 	$(SDK_ROOT)/components/libraries/uart \
 	$(SDK_ROOT)/components/libraries/fifo \
 	$(SDK_ROOT)/integration/nrfx \
@@ -222,6 +229,31 @@ ifdef CONFIG_H
 #    ASFLAGS += -include $(CONFIG_H)
 endif
 
+ifeq ($(SOFTDEVICE), S112)
+	CFLAGS += -DS112
+	ASMFLAGS += -DS112
+	SOFTDEVICE_NAME := s112_nrf52_6.1.1_softdevice.hex
+	SOFTDEVICE_VER  := 0xb8
+	SOFTDEVICE_PATH := $(SDK_ROOT)/components/softdevice/s112/hex/s112_nrf52_6.1.1_softdevice.hex
+	
+    INC_FOLDERS += \
+		$(SDK_ROOT)/components/softdevice/s112/headers/nrf52 \
+		$(SDK_ROOT)/components/softdevice/s112/headers
+
+else ifeq ($(SOFTDEVICE), S132)
+	CFLAGS += -DS132
+	ASMFLAGS += -DS132
+	SOFTDEVICE_NAME := s132_nrf52_6.1.1_softdevice.hex
+	SOFTDEVICE_VER  := 0xb7
+	SOFTDEVICE_PATH := $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_6.1.1_softdevice.hex
+	
+	INC_FOLDERS += \
+		$(SDK_ROOT)/components/softdevice/s132/headers/nrf52 \
+		$(SDK_ROOT)/components/softdevice/s132/headers
+
+else
+	$(error cannot handle softdevice [$(SOFTDEVICE)])
+endif
 
 # Linker flags
 LDFLAGS += $(OPT)

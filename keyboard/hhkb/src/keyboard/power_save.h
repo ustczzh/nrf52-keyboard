@@ -2,7 +2,7 @@
 
 #include "config.h"
 #include <stdbool.h>
-#include "../../main.h"
+#include "../main.h"
 
 #if LED_AUTOOFF_TIME > 0
 void power_save_set_mode(bool on);

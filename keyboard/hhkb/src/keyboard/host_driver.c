@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "keyboard_host_driver.h"
 #include <stdint.h>
 
-#include "../../config/keyboard_config.h"
+#include "../config/keyboard_config.h"
 #include "report.h"
 
 NRF_SECTION_SET_DEF(host_driver, struct host_driver*, 3);

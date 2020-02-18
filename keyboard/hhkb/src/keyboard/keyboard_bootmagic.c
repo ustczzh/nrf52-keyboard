@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "hook.h"
 #include "keycode.h"
 #include "bootmagic.h"
-#include "../../main.h"
+#include "../main.h"
 #include "sleep_reason.h"
 
 #ifndef BOOTMAGIC_KEY_BOOT_TRAP

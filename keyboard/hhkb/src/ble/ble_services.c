@@ -37,6 +37,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "peer_manager_handler.h"
 
 #include "ble_config.h"
+#include "data_storage.h"
+#include "util.h"
+#include <string.h>
 
 #define PNP_ID_VENDOR_ID_SOURCE 0x02 /**< Vendor ID Source. */
 
@@ -71,6 +74,7 @@ BLE_ADVERTISING_DEF(m_advertising); /**< Advertising module instance. */
 
 static ble_uuid_t m_adv_uuids[] = { { BLE_UUID_HUMAN_INTERFACE_DEVICE_SERVICE, BLE_UUID_TYPE_BLE } };
 
+
 /**@brief Function for setting filtered whitelist.
  *
  * @param[in] skip  Filter passed to @ref pm_peer_id_list.
@@ -79,6 +83,7 @@ static void whitelist_set(pm_peer_id_list_skip_t skip)
 {
     pm_peer_id_t peer_ids[BLE_GAP_WHITELIST_ADDR_MAX_COUNT];
     uint32_t peer_id_count = BLE_GAP_WHITELIST_ADDR_MAX_COUNT;
+
     ret_code_t err_code = pm_peer_id_list(peer_ids, &peer_id_count, PM_PEER_ID_INVALID, skip);
     APP_ERROR_CHECK(err_code);
 
@@ -334,7 +339,6 @@ void advertising_start(bool erase_bonds)
         APP_ERROR_CHECK(ret);
     }
 }
-
 /**@brief 重新开启蓝牙广播.
  * 
  * @param[in] mode  广播模式
@@ -372,7 +376,6 @@ static void disconnect(uint16_t conn_handle, void* p_context)
 static void advertising_config_get(ble_adv_modes_config_t* p_config)
 {
     memset(p_config, 0, sizeof(ble_adv_modes_config_t));
-
 #ifdef MULTI_DEVICE_SWITCH
     p_config->ble_adv_whitelist_enabled = true;
 #else
@@ -388,6 +391,7 @@ static void advertising_config_get(ble_adv_modes_config_t* p_config)
     p_config->ble_adv_slow_enabled = true;
     p_config->ble_adv_slow_interval = APP_ADV_SLOW_INTERVAL;
     p_config->ble_adv_slow_timeout = APP_ADV_SLOW_DURATION;
+    p_config->ble_adv_on_disconnect_disabled = false;
 }
 
 #ifndef MULTI_DEVICE_SWITCH
@@ -473,9 +477,10 @@ static void pm_evt_handler(pm_evt_t const* p_evt)
         // allow pairing request from an already bonded peer.
         pm_conn_sec_config_t conn_sec_config = { .allow_repairing = true };
         pm_conn_sec_config_reply(p_evt->conn_handle, &conn_sec_config);
+
         break;
     }
-        
+
     default:
         break;
     }

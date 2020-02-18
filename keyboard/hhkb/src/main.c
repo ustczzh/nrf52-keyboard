@@ -88,13 +88,13 @@
 
 #include "main.h"
 
-#include "keyboard/common/adc_convert.h"
-#include "keyboard/common/ble_keyboard.h"
-#include "keyboard/common/keyboard_bootcheck.h"
-#include "keyboard/common/keyboard_command.h"
-#include "keyboard/common/keyboard_evt.h"
-#include "keyboard/common/keyboard_led.h"
-//#include "keyboard/mx/keyboard_matrix.h"
+#include "keyboard/adc_convert.h"
+#include "keyboard/ble_keyboard.h"
+#include "keyboard/keyboard_bootcheck.h"
+#include "keyboard/keyboard_command.h"
+#include "keyboard/keyboard_evt.h"
+#include "keyboard/keyboard_led.h"
+//#include "keyboard/keyboard_matrix.h"
 #include "protocol/usb_comm.h"
 
 #define DEAD_BEEF 0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
