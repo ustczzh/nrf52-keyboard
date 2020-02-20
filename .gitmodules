@@ -1,7 +1,7 @@
-[submodule "SDK/external/micro-ecc/micro-ecc"]
-	path = SDK/external/micro-ecc/micro-ecc
-	url = https://github.com/kmackay/micro-ecc
 [submodule "tmk"]
 	path = tmk
 	url = https://github.com/tmk/tmk_keyboard
 	branch = master
+[submodule "SDK"]
+	path = SDK
+	url = https://github.com/ustczzh/nRF5_SDK.git
