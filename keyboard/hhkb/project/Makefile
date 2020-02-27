@@ -1,5 +1,5 @@
 # 此工程的根目录
-ROOT_DIR := ../..
+ROOT_DIR := ../../..
 
 # 特殊目录控制
 # SDK_ROOT := /var/nrf52/nRF52_SDK
@@ -10,9 +10,9 @@ ROOT_DIR := ../..
 NRF_CHIP := nrf52840
 
 # 配置文件文件名
-CONFIG_H = config.h
+CONFIG_H = $(ROOT_DIR)/project/config.h
 #SRC_FILES += keymap_plain.c
-SRC_FILES += unimap_hhkb_zzh.c
+SRC_FILES += $(ROOT_DIR)/unimap/unimap_hhkb_zzh.c
 
 # 配置项：功能选项
 # 关于更多的可配置项目，请参考doc目录下的相应文档
@@ -32,14 +32,12 @@ KEYBOARD_FRAMEWORK = topre
 
 INC_FOLDERS += .
 
-APP_MAIN_DIR := $(ROOT_DIR)/application/main
+APP_MAIN_DIR := $(ROOT_DIR)/keyboard/hhkb
 TMK_CORE_DIR := $(ROOT_DIR)/tmk/tmk_core
-#USB_SOURCE_DIR := $(ROOT_DIR)/usb
 
 APP_PROJ_DIR := $(APP_MAIN_DIR)/project
-APP_SRC_DIR := $(APP_MAIN_DIR)/src
+APP_SRC_DIR := $(APP_MAIN_DIR)
 
 all: default
 
 include $(APP_PROJ_DIR)/kbd.mk
-#include $(USB_SOURCE_DIR)/usb.mk

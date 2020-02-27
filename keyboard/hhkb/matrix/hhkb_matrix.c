@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "nrf.h"
 #include "nrf_delay.h"
 #include "nrf_gpio.h"
-#include "nrf_drv_wdt.h"
-#include "nrf_drv_clock.h"
+#include "nrfx_wdt.h"
+#include "nrfx_clock.h"
 
 #include "hhkb_nrf5.h"
 

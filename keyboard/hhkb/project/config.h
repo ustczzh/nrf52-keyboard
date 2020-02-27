@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #include <stdint.h>
 
 /* USB和蓝牙的显示参数 */
@@ -29,6 +32,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MANUFACTURER "ZZZ" /* 硬件制造商，用于蓝牙显示 */
 #define PRODUCT "BLE HHKB" /* 硬件名称，用于USB和蓝牙显示 */
 #define MACADDR_SEPRATOR '_' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
+
+/* 蓝牙 */
+#define BLUETOOTH_ENABLE
+
 
 /* USB HID report parameter */
 #define KEYBOARD_EPSIZE 8 /* 键盘上传端点大小，请不要修改 */
@@ -105,7 +112,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define HHKB_POWER_SAVING
 
 // 按键阵列配置
-/* matrix size */
+/* keyboard matrix size */
 #ifdef HHKB_JP
 #   define MATRIX_ROWS 16
 #else
@@ -142,3 +149,87 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
 
 #define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
 #define MATRIX_SCAN_DELAY_CYCLE 36 /* 按键扫描等待IO稳定的延时时长 */
+
+
+
+
+// NRF52840 pin map: ((port << 5) | (pin & 0x1F))
+#define MATRIX_ROW_PINS \
+    { 26, 41, 8, 3 }
+#define MATRIX_COL_PINS \
+    { 6, 45, 7, 38, 12, 36, 34, 32, 24, 13, 20, 22 }
+#define DEBOUNCE 20
+
+
+#define PERMISSVIE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
+#define TAPPING_FORCE_HOLD
+#define TAPPING_TERM 150
+#define ONESHOT_TIMEOUT 120
+
+#define RGB_MATRIX_KEYPRESSES
+#define RGB_MATRIX_FRAMEBUFFER_EFFECTS
+#define RGB_MATRIX_LED_PROCESS_LIMIT 20
+#define RGB_MATRIX_LED_FLUSH_LIMIT 26
+#define DRIVER_ADDR_1 0b1010000
+#define DRIVER_ADDR_2 0b1010000
+
+#define DRIVER_COUNT 1
+#define DRIVER_1_LED_TOTAL 48
+#define DRIVER_LED_TOTAL DRIVER_1_LED_TOTAL
+
+#define DISABLE_RGB_MATRIX_ALPHAS_MODS
+#define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
+#define DISABLE_RGB_MATRIX_BREATHING
+#define DISABLE_RGB_MATRIX_BAND_SAT
+#define DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
+#define DISABLE_RGB_MATRIX_BAND_SPIRAL_SAT
+#define DISABLE_RGB_MATRIX_RAINDROPS
+#define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
+#define DISABLE_RGB_MATRIX_TYPING_HEATMAP
+#define DISABLE_RGB_MATRIX_DIGITAL_RAIN
+#define DISABLE_RGB_MATRIX_SOLID_REACTIVE
+#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
+#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
+#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
+#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
+#define DISABLE_RGB_MATRIX_SPLASH
+#define DISABLE_RGB_MATRIX_SOLID_SPLASH
+
+// The pin number for SCL pin
+#define I2C1_SCL 15
+// The pin number for SDA pin
+#define I2C1_SDA 17
+// #define BLE_NKRO
+// Force NKRO
+// #define FORCE_NKRO
+#define NKRO_EPSIZE 22
+// Enable watchdog
+// #define KBD_WDT_ENABLE
+#define MAX_ENDPOINTS 8
+
+/*
+ * MIDI options
+ */
+
+/* Prevent use of disabled MIDI features in the keymap */
+//#define MIDI_ENABLE_STRICT 1
+
+/* enable basic MIDI features:
+   - MIDI notes can be sent when in Music mode is on
+*/
+
+//#define MIDI_BASIC
+
+/* enable advanced MIDI features:
+   - MIDI notes can be added to the keymap
+   - Octave shift and transpose
+   - Virtual sustain, portamento, and modulation wheel
+   - etc.
+*/
+//#define MIDI_ADVANCED
+
+/* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
+//#define MIDI_TONE_KEYCODE_OCTAVES 6
+
+#endif

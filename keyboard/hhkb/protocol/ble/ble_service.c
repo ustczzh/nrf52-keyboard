@@ -57,24 +57,20 @@
 #include <string.h>
 
 #include "ble_advertising.h"
-#include "ble_bas.h"
 #include "ble_dis.h"
 #include "ble_conn_params.h"
 #include "nrf_sdh.h"
 #include "nrf_sdh_soc.h"
-#include "app_timer.h"
 #include "fds.h"
 #include "nrf_ble_gatt.h"
 #include "nrf_ble_qwr.h"
-#include "nrf_pwr_mgmt.h"
 #include "peer_manager_handler.h"
-#include "adc.h"
 // #include "ble_midi.h"
 #include "ble_dfu.h"
 #include "nrf_bootloader_info.h"
-#include "nrf_power.h"
-#include "nrf_drv_wdt.h"
+#include "nrfx_wdt.h"
 
+#include "bat.h"
 #include "ble_service.h"
 #include "ble_hids_service.h"
 #include "outputselect.h"
@@ -82,18 +78,13 @@
 
 uint8_t              keyboard_ble_led_stats = 0;
 static volatile bool ble_disable            = true; /**< Handle of the current connection. */
-#ifdef POWER_SAVE_TIMEOUT
-static uint16_t power_save_counter = 0;
-#endif
-nrf_drv_wdt_channel_id m_channel_id;
+nrfx_wdt_channel_id m_channel_id;
 
 #define DEVICE_NAME "Nordic_Keyboard"           /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME "NordicSemiconductor" /**< Manufacturer. Will be passed to Device Information Service. */
 
 #define APP_BLE_OBSERVER_PRIO 3 /**< Application's BLE observer priority. You shouldn't need to modify this value. */
 #define APP_BLE_CONN_CFG_TAG 1  /**< A tag identifying the SoftDevice BLE configuration. */
-
-#define BATTERY_LEVEL_MEAS_INTERVAL APP_TIMER_TICKS(2000) /**< Battery level measurement interval (ticks). */
 
 #define PNP_ID_VENDOR_ID_SOURCE 0x02  /**< Vendor ID Source. */
 #define PNP_ID_VENDOR_ID 0x1915       /**< Vendor ID. */
@@ -132,9 +123,6 @@ nrf_drv_wdt_channel_id m_channel_id;
 #define ISSI_COMMANDREGISTER_WRITELOCK 0xFE
 #define ISSI_PAGE_FUNCTION 0x03
 
-APP_TIMER_DEF(m_battery_timer_id); /**< Battery timer. */
-
-BLE_BAS_DEF(m_bas);                 /**< Structure used to identify the battery service. */
 NRF_BLE_GATT_DEF(m_gatt);           /**< GATT module instance. */
 NRF_BLE_QWR_DEF(m_qwr);             /**< Context for the Queued Write module.*/
 BLE_ADVERTISING_DEF(m_advertising); /**< Advertising module instance. */
@@ -151,7 +139,6 @@ BLE_ADVERTISING_DEF(m_advertising); /**< Advertising module instance. */
 static pm_peer_id_t m_peer_id;
 static uint32_t     m_whitelist_peer_cnt;
 static pm_peer_id_t m_whitelist_peers[BLE_GAP_WHITELIST_ADDR_MAX_COUNT];
-static void         sleep_mode_enter(void);
 
 static ble_uuid_t m_adv_uuids[] = {{BLE_UUID_HUMAN_INTERFACE_DEVICE_SERVICE, BLE_UUID_TYPE_BLE}};
 
@@ -467,63 +454,6 @@ static void pm_evt_handler(pm_evt_t const *p_evt) {
     }
 }
 
-/**@brief Function for performing a battery measurement, and update the Battery Level characteristic in the Battery Service.
- */
-void battery_level_update(nrf_saadc_value_t value, uint16_t size) {
-    ret_code_t err_code;
-    uint8_t    battery_level;
-
-    uint32_t voltage = (value * 6 * 600 * 143 / 256 / 100 / size);
-    NRF_LOG_INFO("Battery voltage: %d mV", voltage);
-
-    if (voltage > 4200) {
-        battery_level = 100;
-    } else if (voltage > 4000) {
-        battery_level = 82 + 18 * (voltage - 4000) / 200;
-    } else if (voltage > 3800) {
-        battery_level = 44 + 38 * (voltage - 3800) / 200;
-    } else if (voltage > 3740) {
-        battery_level = 20 + 24 * (voltage - 3740) / 160;
-    } else if (voltage > 3680) {
-        battery_level = 10 + (voltage - 3680) / 6;
-    } else if (voltage > 3000) {
-        battery_level = (voltage - 3000) / 68;
-    } else {
-        battery_level = 0;
-    }
-
-    err_code = ble_bas_battery_level_update(&m_bas, battery_level, BLE_CONN_HANDLE_ALL);
-    if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY) && (err_code != NRF_ERROR_RESOURCES) && (err_code != NRF_ERROR_FORBIDDEN) && (err_code != NRF_ERROR_INVALID_STATE) && (err_code != BLE_ERROR_GATTS_SYS_ATTR_MISSING)) {
-        APP_ERROR_HANDLER(err_code);
-    }
-}
-
-/**@brief Function for handling the Battery measurement timer timeout.
- *
- * @details This function will be called each time the battery level measurement timer expires.
- *
- * @param[in]   p_context   Pointer used for passing some arbitrary information (context) from the
- *                          app_start_timer() call to the timeout handler.
- */
-static void battery_level_meas_timeout_handler(void *p_context) {
-    UNUSED_PARAMETER(p_context);
-#ifdef POWER_SAVE_TIMEOUT
-    if (power_save_counter++ > POWER_SAVE_TIMEOUT / 2) {
-        sleep_mode_enter();
-    }
-#endif
-#ifdef KBD_WDT_ENABLE
-    nrf_drv_wdt_channel_feed(m_channel_id);
-#endif
-    adc_start();
-}
-
-void reset_power_save_counter() {
-#ifdef POWER_SAVE_TIMEOUT
-    power_save_counter = 0;
-#endif
-}
-
 /**@brief Function for the GAP initialization.
  *
  * @details This function sets up all the necessary GAP (Generic Access Profile) parameters of the
@@ -722,67 +652,6 @@ static void conn_params_init(void) {
     cp_init.error_handler                  = conn_params_error_handler;
 
     err_code = ble_conn_params_init(&cp_init);
-    APP_ERROR_CHECK(err_code);
-}
-
-/**@brief Function for the Timer initialization.
- */
-static void timers_init(void) {
-    ret_code_t err_code;
-
-    // Create battery timer.
-    err_code = app_timer_create(&m_battery_timer_id, APP_TIMER_MODE_REPEATED, battery_level_meas_timeout_handler);
-    APP_ERROR_CHECK(err_code);
-}
-
-/**@brief Function for starting timers.
- */
-static void timers_start(void) {
-    ret_code_t err_code;
-
-    err_code = app_timer_start(m_battery_timer_id, BATTERY_LEVEL_MEAS_INTERVAL, NULL);
-    APP_ERROR_CHECK(err_code);
-}
-
-/**@brief Function for putting the chip into sleep mode.
- *
- * @note This function will not return.
- */
-static void sleep_mode_enter(void) {
-#ifdef IS31FL3737
-    i2c_stop();
-#endif
-    NRF_LOG_INFO("Sleep mode");
-    ret_code_t err_code;
-
-    static const uint8_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
-    static const uint8_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
-    for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
-        nrf_gpio_cfg_output(row_pins[i]);
-        nrf_gpio_pin_clear(row_pins[i]);
-    }
-    for (uint8_t i = 0; i < MATRIX_COLS; i++) {
-        nrf_gpio_cfg_sense_input(col_pins[i], NRF_GPIO_PIN_PULLUP, NRF_GPIO_PIN_SENSE_LOW);
-    }
-
-    // Go to system-off mode (this function will not return; wakeup will cause a reset).
-    err_code = sd_power_system_off();
-    while (1) {
-    }
-    APP_ERROR_CHECK(err_code);
-}
-
-void deep_sleep_mode_enter(void) {
-#ifdef IS31FL3737
-    i2c_stop();
-#endif
-    NRF_LOG_INFO("Deep sleep mode");
-    ret_code_t err_code;
-
-    // Go to system-off mode (this function will not return; wakeup will cause a reset).
-    err_code = sd_power_system_off();
-    while (1) {
-    }
     APP_ERROR_CHECK(err_code);
 }
 
@@ -1071,24 +940,6 @@ static void advertising_init(void) {
     ble_advertising_conn_cfg_tag_set(&m_advertising, APP_BLE_CONN_CFG_TAG);
 }
 
-/**@brief Function for initializing power management.
- */
-static void power_management_init(void) {
-    ret_code_t err_code;
-    err_code = nrf_pwr_mgmt_init();
-    APP_ERROR_CHECK(err_code);
-}
-
-/**@brief Function for handling the idle state (main loop).
- *
- * @details If there is no pending log operation, then sleep until next the next event occurs.
- */
-void idle_state_handle(void) {
-    if (NRF_LOG_PROCESS() == false) {
-        nrf_pwr_mgmt_run();
-    }
-}
-
 // #include "timer.h"
 
 // uint32_t app_timer_ms(uint32_t ticks)
@@ -1135,18 +986,16 @@ void idle_state_handle(void) {
 #ifdef KBD_WDT_ENABLE
 static void wdt_init() {
     uint32_t             err_code = NRF_SUCCESS;
-    nrf_drv_wdt_config_t config   = NRF_DRV_WDT_DEAFULT_CONFIG;
-    err_code                      = nrf_drv_wdt_init(&config, NULL);
+    nrfx_wdt_config_t config   = NRFX_WDT_DEAFULT_CONFIG;
+    err_code                      = nrfx_wdt_init(&config, NULL);
     APP_ERROR_CHECK(err_code);
-    err_code = nrf_drv_wdt_channel_alloc(&m_channel_id);
+    err_code = nrfx_wdt_channel_alloc(&m_channel_id);
     APP_ERROR_CHECK(err_code);
-    nrf_drv_wdt_enable();
+    nrfx_wdt_enable();
 }
 #endif
 void ble_service_init(void) {
     // Initialize.
-    adc_init();
-    timers_init();
     power_management_init();
     ble_stack_init();
     gap_params_init();
@@ -1161,5 +1010,4 @@ void ble_service_init(void) {
 #ifdef KBD_WDT_ENABLE
     wdt_init();
 #endif
-    timers_start();
 }

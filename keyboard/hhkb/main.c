@@ -79,25 +79,47 @@ static void timers_init(void) {
     APP_ERROR_CHECK(err_code);
 }
 
+/**@brief Function for the Timer initialization.
+ */
+static void keyboard_scan_timers_create(void) {
+    ret_code_t err_code;
+
+    // Create keyboard scan timer.
+    err_code = app_timer_create(&m_keyboard_scan_timer, APP_TIMER_MODE_REPEATED, keyboard_scan_handler);
+    APP_ERROR_CHECK(err_code);
+}
+
+/**@brief Function for starting timers.
+ */
+static void keyboard_scan_timers_start(void) {
+    ret_code_t err_code;
+
+    err_code = app_timer_start(m_keyboard_scan_timer, APP_TIMER_TICKS(KEYBOARD_SCAN_INTERVAL), NULL);
+    APP_ERROR_CHECK(err_code);
+}
+
 int main(void) {
+
     keyboard_setup();
     keyboard_init();
 
-    ret_code_t ret;
-
     log_init();
     timers_init();
+
+    adc_init();
+    bat_timers_create();
+    bat_timers_start();
 
     usb_keyboard_init();
     ble_service_init();
 
     #ifdef MIDI_ENABLE
-        setup_midi();
+        midi_setup();
     #endif
 
-    ret = app_timer_create(&m_keyboard_scan_timer, APP_TIMER_MODE_REPEATED, keyboard_scan_handler);
-    APP_ERROR_CHECK(ret);
-    ret = app_timer_start(m_keyboard_scan_timer, APP_TIMER_TICKS(KEYBOARD_SCAN_INTERVAL), NULL);
+    keyboard_scan_timers_create();
+    keyboard_scan_timers_start();
+    
 
     if (!NRF_USBD->ENABLE) {
         advertising_start(false);
@@ -107,6 +129,8 @@ int main(void) {
         while (app_usbd_event_queue_process()) {
             /* Nothing to do */
         }
+        app_sched_execute();
+        execute_event();
         idle_state_handle();
     }
 }

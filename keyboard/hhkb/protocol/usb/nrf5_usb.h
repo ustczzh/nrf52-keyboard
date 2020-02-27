@@ -4,10 +4,10 @@
 
 #include "nrf.h"
 #include "app_util_platform.h"
-#include "nrf_drv_usbd.h"
-#include "nrf_drv_clock.h"
+#include "nrfx_usbd.h"
+#include "nrfx_clock.h"
 #include "nrf_gpio.h"
-#include "nrf_drv_power.h"
+#include "nrfx_power.h"
 
 #include "app_timer.h"
 #include "app_usbd.h"
@@ -19,7 +19,8 @@
 
 #include "nrf_log.h"
 #include "host_driver.h"
-#include "LUFA/Drivers/USB/USB.h"
+//#include "../lufa_utils/LUFA/Drivers/USB/USB.h"
+//#include "USB.h"
 
 /**
  * @brief HID generic class interface number.
