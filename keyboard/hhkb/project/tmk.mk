@@ -10,14 +10,12 @@ SRC_FILES += $(TMK_COMMON_DIR)/host.c \
 	$(TMK_COMMON_DIR)/print.c \
 	$(TMK_COMMON_DIR)/debug.c \
 	$(TMK_COMMON_DIR)/util.c \
-	$(TMK_COMMON_DIR)/hook.c \
-	$(KEY_COMMON_PLATFORM_DIR)/suspend.c \
-	$(KEY_COMMON_PLATFORM_DIR)/timer.c \
-	$(KEY_COMMON_PLATFORM_DIR)/bootloader.c \
-    $(KEY_COMMON_PLATFORM_DIR)/eeprom.c
+	$(TMK_COMMON_DIR)/hook.c 
 
 
-INC_FOLDERS += $(TMK_COMMON_DIR)
+INC_FOLDERS += \
+    $(TMK_CORE_DIR) \
+    $(TMK_COMMON_DIR)
 
 SHARED_EP_ENABLE = no
 MOUSE_SHARED_EP ?= yes

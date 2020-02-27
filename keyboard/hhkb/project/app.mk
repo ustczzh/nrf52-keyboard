@@ -96,90 +96,67 @@ SRC_FILES += \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_saadc.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_wdt.c \
-	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c \
-	$(APP_SRC_DIR)/main.c \
-	$(APP_SRC_DIR)/ble/ble_services.c \
-	$(APP_SRC_DIR)/ble/ble_hid_service.c \
-	$(APP_SRC_DIR)/ble/ble_bas_service.c \
+	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c
+
 
 # Include folders common to all targets
 INC_FOLDERS += \
-	$(SDK_ROOT)/components/libraries/pwm \
-	$(SDK_ROOT)/modules/nrfx/hal \
-	$(SDK_ROOT)/components/libraries/log \
-	$(SDK_ROOT)/components/libraries/fstorage \
-	$(SDK_ROOT)/components/libraries/mutex \
-	$(SDK_ROOT)/components/libraries/gpiote \
-	$(SDK_ROOT)/components/libraries/bootloader/ble_dfu \
 	$(SDK_ROOT)/components/ble/ble_advertising \
-	$(SDK_ROOT)/components/ble/ble_services/ble_bas_c \
-	$(SDK_ROOT)/modules/nrfx/drivers/include \
-	$(SDK_ROOT)/components/libraries/experimental_task_manager \
-	$(SDK_ROOT)/components/libraries/queue \
-	$(SDK_ROOT)/components/libraries/pwr_mgmt \
-	$(SDK_ROOT)/components/toolchain/cmsis/include \
-	$(SDK_ROOT)/components/ble/common \
-	$(SDK_ROOT)/components/ble/ble_services/ble_bas \
-	$(SDK_ROOT)/components/libraries/mpu \
-	$(SDK_ROOT)/components/libraries/experimental_section_vars \
-	$(SDK_ROOT)/components/libraries/slip \
-	$(SDK_ROOT)/components/libraries/delay \
-	$(SDK_ROOT)/components/libraries/csense_drv \
-	$(SDK_ROOT)/components/libraries/memobj \
-	$(SDK_ROOT)/components/libraries/bootloader \
-	$(SDK_ROOT)/components/libraries/bootloader/dfu \
-	$(SDK_ROOT)/components/libraries/bootloader/ble_dfu \
-	$(SDK_ROOT)/components/libraries/low_power_pwm \
-	$(SDK_ROOT)/components/softdevice/common \
-	$(SDK_ROOT)/components/libraries/low_power_pwm \
-	$(SDK_ROOT)/components/ble/ble_services/ble_dfu \
-	$(SDK_ROOT)/external/fprintf \
-	$(SDK_ROOT)/components/libraries/svc \
-	$(SDK_ROOT)/components/libraries/atomic \
-	$(SDK_ROOT)/components \
-	$(SDK_ROOT)/components/libraries/scheduler \
-	$(SDK_ROOT)/components/libraries/cli \
-	$(SDK_ROOT)/components/libraries/crc16 \
-	$(SDK_ROOT)/components/libraries/util \
-	$(APP_SRC_DIR)/config \
-	$(APP_SRC_DIR) \
-	$(SDK_ROOT)/components/libraries/csense \
-	$(SDK_ROOT)/components/libraries/balloc \
-	$(SDK_ROOT)/components/libraries/ecc \
-	$(SDK_ROOT)/components/libraries/hardfault \
-	$(SDK_ROOT)/components/libraries/hci \
-	$(SDK_ROOT)/components/libraries/timer \
-	$(SDK_ROOT)/components/libraries/uart \
-	$(SDK_ROOT)/components/libraries/fifo \
-	$(SDK_ROOT)/integration/nrfx \
-	$(SDK_ROOT)/components/libraries/sortlist \
-	$(SDK_ROOT)/components/libraries/spi_mngr \
-	$(SDK_ROOT)/components/libraries/led_softblink \
-	$(SDK_ROOT)/modules/nrfx/mdk \
 	$(SDK_ROOT)/components/ble/ble_link_ctx_manager \
-	$(SDK_ROOT)/components/ble/ble_services/ble_hids \
-	$(SDK_ROOT)/components/libraries/strerror \
-	$(SDK_ROOT)/components/libraries/crc32 \
-	$(SDK_ROOT)/components/ble/peer_manager \
-	$(SDK_ROOT)/components/libraries/mem_manager \
-	$(SDK_ROOT)/components/libraries/ringbuf \
-	$(SDK_ROOT)/components/ble/ble_services/ble_tps \
+	$(SDK_ROOT)/components/ble/ble_services/ble_bas \
+	$(SDK_ROOT)/components/ble/ble_services/ble_dfu \
 	$(SDK_ROOT)/components/ble/ble_services/ble_dis \
+	$(SDK_ROOT)/components/ble/ble_services/ble_hids \
+	$(SDK_ROOT)/components/ble/common \
 	$(SDK_ROOT)/components/ble/nrf_ble_gatt \
 	$(SDK_ROOT)/components/ble/nrf_ble_qwr \
-	$(SDK_ROOT)/modules/nrfx \
-	$(SDK_ROOT)/integration/nrfx/legacy \
-	$(SDK_ROOT)/external/segger_rtt \
+	$(SDK_ROOT)/components/ble/peer_manager \
+	$(SDK_ROOT)/components/libraries/atomic \
 	$(SDK_ROOT)/components/libraries/atomic_fifo \
-	$(SDK_ROOT)/components/libraries/crypto \
-	$(SDK_ROOT)/components/ble/ble_racp \
-	$(SDK_ROOT)/components/libraries/fds \
 	$(SDK_ROOT)/components/libraries/atomic_flags \
-	$(SDK_ROOT)/components/libraries/stack_guard \
+	$(SDK_ROOT)/components/libraries/balloc \
+	$(SDK_ROOT)/components/libraries/bootloader/dfu \
+	$(SDK_ROOT)/components/libraries/crc16 \
+	$(SDK_ROOT)/components/libraries/experimental_section_vars \
+	$(SDK_ROOT)/components/libraries/fds \
+	$(SDK_ROOT)/components/libraries/fifo \
+	$(SDK_ROOT)/components/libraries/fstorage \
+	$(SDK_ROOT)/components/libraries/hardfault/hardfault_implementation.c \
 	$(SDK_ROOT)/components/libraries/log/src \
+	$(SDK_ROOT)/components/libraries/low_power_pwm \
+	$(SDK_ROOT)/components/libraries/memobj \
+	$(SDK_ROOT)/components/libraries/pwr_mgmt \
+    $(SDK_ROOT)/components/libraries/queue \
+	$(SDK_ROOT)/components/libraries/ringbuf \
+	$(SDK_ROOT)/components/libraries/scheduler \
+	$(SDK_ROOT)/components/libraries/sortlist \
+	$(SDK_ROOT)/components/libraries/strerror \
+	$(SDK_ROOT)/components/libraries/timer \
+	$(SDK_ROOT)/components/libraries/uart \
+	$(SDK_ROOT)/components/libraries/usbd \
+	$(SDK_ROOT)/components/libraries/usbd/class/hid \
+	$(SDK_ROOT)/components/libraries/util \
+	$(SDK_ROOT)/components/softdevice/common \
+	$(SDK_ROOT)/external/fprintf \
+	$(SDK_ROOT)/external/segger_rtt \
+	$(SDK_ROOT)/modules/nrfx/soc \
+	$(SDK_ROOT)/modules/nrfx/drivers/src \
+	$(SDK_ROOT)/modules/nrfx/drivers/src/prs
 
 # Libraries common to all targets
 LIB_FILES += \
+
+ifeq ($(NRF_DEBUG), yes)
+  TMK_COMMON_DEFS += -DNRF_LOG_ENABLED=1
+  TMK_COMMON_DEFS += -DNRF_LOG_BACKEND_RTT_ENABLED=1
+  TMK_COMMON_DEFS += -DNRF_LOG_BACKEND_UART_ENABLED=0
+  TMK_COMMON_DEFS += -DNRF_LOG_DEFAULT_LEVEL=4
+else
+  TMK_COMMON_DEFS += -DNRF_LOG_ENABLED=0
+  TMK_COMMON_DEFS += -DNRF_LOG_BACKEND_RTT_ENABLED=0
+  TMK_COMMON_DEFS += -DNRF_LOG_BACKEND_UART_ENABLED=0
+  TMK_COMMON_DEFS += -DNRF_LOG_DEFAULT_LEVEL=0
+endif
 
 OPT_DEFS = $(TMK_COMMON_DEFS)
 

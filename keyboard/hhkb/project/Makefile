@@ -21,13 +21,10 @@ KEYBOARD_FRAMEWORK = topre
 ROOT_DIR := ../../..
 
 # 配置文件文件名
-CONFIG_H = $(ROOT_DIR)/project/config.h
-
-# unimap
-SRC_FILES += $(ROOT_DIR)/unimap/unimap_hhkb_zzh.c
-INC_FOLDERS += $(ROOT_DIR)/unimap
-
 SDK_ROOT := $(ROOT_DIR)/SDK
+
+TMK_CORE_DIR   := $(ROOT_DIR)/tmk/tmk_core
+TMK_COMMON_DIR := $(TMK_CORE_DIR)/common
 
 APP_MAIN_DIR   := $(ROOT_DIR)/application/main
 APP_PROJ_DIR   := $(APP_MAIN_DIR)/project
@@ -39,12 +36,14 @@ KEY_SRC_DIR    := $(KEY_MAIN_DIR)
 KEY_COMMON_DIR := $(KEY_MAIN_DIR)/common
 KEY_COMMON_PLATFORM_DIR := $(KEY_MAIN_DIR)/common/$(PLATFORM)
 
-TMK_CORE_DIR   := $(ROOT_DIR)/tmk/tmk_core
-TMK_COMMON_DIR := $(TMK_CORE_DIR)/common
+CONFIG_H = $(KEY_PROJ_DIR)/config.h
+# unimap
+SRC_FILES   += $(KEY_MAIN_DIR)/unimap/unimap_hhkb_zzh.c
+INC_FOLDERS += $(KEY_MAIN_DIR)/unimap
 
 all: default
 
-include $(APP_PROJ_DIR)/tmk.mk
-include $(APP_PROJ_DIR)/kbd.mk
-include $(APP_PROJ_DIR)/driver.mk
-include $(APP_PROJ_DIR)/app.mk
+include $(KEY_PROJ_DIR)/tmk.mk
+include $(KEY_PROJ_DIR)/kbd.mk
+include $(KEY_PROJ_DIR)/driver.mk
+include $(KEY_PROJ_DIR)/app.mk

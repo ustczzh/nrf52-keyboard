@@ -47,8 +47,8 @@ INC_FOLDERS += \
   $(SDK_ROOT)/components/softdevice/s140/headers
 
 SOFTDEVICE := S140
-HEAP_SIZE := 0
-STACK_SIZE := 0
+HEAP_SIZE := 8192
+STACK_SIZE := 8192
 
 LD_NAME := nrf52840_s140.ld
 
