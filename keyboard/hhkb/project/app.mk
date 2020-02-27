@@ -1,6 +1,8 @@
 PROJECT_NAME     := ble_app_hids_keyboard_pca10056_s140
 TARGETS          := nrf52_kbd
 
+include $(KEY_PROJ_DIR)/nrf52840.mk
+
 ifndef OUTPUT_DIRECTORY
 	OUTPUT_DIRECTORY := _build
 endif
@@ -9,46 +11,86 @@ ifndef TEMPLATE_PATH
 	TEMPLATE_PATH := $(ROOT_DIR)/template
 endif
 
-include $(APP_PROJ_DIR)/nrf52840.mk
-
 ifndef NRF_PACKAGE_NAME
-	NRF_PACKAGE_NAME := $(OUTPUT_DIRECTORY)/nrf52_kbd_$(VERSION).zip
+	NRF_PACKAGE_NAME := $(OUTPUT_DIRECTORY)/$(TARGETS)_$(VERSION).zip
 endif
 
-$(OUTPUT_DIRECTORY)/nrf52_kbd.out: \
-	LINKER_SCRIPT  := $(APP_PROJ_DIR)/$(LD_NAME)
+$(OUTPUT_DIRECTORY)/$(TARGETS).out: \
+	LINKER_SCRIPT  := $(KEY_SRC_DIR)/pca10056/blank/armgcc/$(LD_NAME)
 
 # Source files common to all targets
 SRC_FILES += \
+	$(SDK_ROOT)/components/ble/ble_advertising/ble_advertising.c \
+	$(SDK_ROOT)/components/ble/ble_link_ctx_manager/ble_link_ctx_manager.c \
+	$(SDK_ROOT)/components/ble/ble_services/ble_bas/ble_bas.c \
+	$(SDK_ROOT)/components/ble/ble_services/ble_dfu/ble_dfu.c \
+	$(SDK_ROOT)/components/ble/ble_services/ble_dfu/ble_dfu_bonded.c \
+	$(SDK_ROOT)/components/ble/ble_services/ble_dfu/ble_dfu_unbonded.c \
+	$(SDK_ROOT)/components/ble/ble_services/ble_dis/ble_dis.c \
+	$(SDK_ROOT)/components/ble/ble_services/ble_hids/ble_hids.c \
+	$(SDK_ROOT)/components/ble/common/ble_advdata.c \
+	$(SDK_ROOT)/components/ble/common/ble_conn_params.c \
+	$(SDK_ROOT)/components/ble/common/ble_conn_state.c \
+	$(SDK_ROOT)/components/ble/common/ble_srv_common.c \
+	$(SDK_ROOT)/components/ble/nrf_ble_gatt/nrf_ble_gatt.c \
+	$(SDK_ROOT)/components/ble/nrf_ble_qwr/nrf_ble_qwr.c \
+	$(SDK_ROOT)/components/ble/peer_manager/auth_status_tracker.c \
+	$(SDK_ROOT)/components/ble/peer_manager/gatt_cache_manager.c \
+	$(SDK_ROOT)/components/ble/peer_manager/gatts_cache_manager.c \
+	$(SDK_ROOT)/components/ble/peer_manager/id_manager.c \
+	$(SDK_ROOT)/components/ble/peer_manager/peer_data_storage.c \
+	$(SDK_ROOT)/components/ble/peer_manager/peer_database.c \
+	$(SDK_ROOT)/components/ble/peer_manager/peer_id.c \
+	$(SDK_ROOT)/components/ble/peer_manager/peer_manager.c \
+	$(SDK_ROOT)/components/ble/peer_manager/peer_manager_handler.c \
+	$(SDK_ROOT)/components/ble/peer_manager/pm_buffer.c \
+	$(SDK_ROOT)/components/ble/peer_manager/security_dispatcher.c \
+	$(SDK_ROOT)/components/ble/peer_manager/security_manager.c \
+	$(SDK_ROOT)/components/libraries/atomic/nrf_atomic.c \
+	$(SDK_ROOT)/components/libraries/atomic_fifo/nrf_atfifo.c \
+	$(SDK_ROOT)/components/libraries/atomic_flags/nrf_atflags.c \
+	$(SDK_ROOT)/components/libraries/balloc/nrf_balloc.c \
+	$(SDK_ROOT)/components/libraries/bootloader/dfu/nrf_dfu_svci.c \
+	$(SDK_ROOT)/components/libraries/crc16/crc16.c \
+	$(SDK_ROOT)/components/libraries/experimental_section_vars/nrf_section_iter.c \
+	$(SDK_ROOT)/components/libraries/fds/fds.c \
+	$(SDK_ROOT)/components/libraries/fifo/app_fifo.c \
+	$(SDK_ROOT)/components/libraries/fstorage/nrf_fstorage.c \
+	$(SDK_ROOT)/components/libraries/fstorage/nrf_fstorage_sd.c \
+	$(SDK_ROOT)/components/libraries/hardfault/hardfault_implementation.c \
+	$(SDK_ROOT)/components/libraries/log/src/nrf_log_backend_rtt.c \
+	$(SDK_ROOT)/components/libraries/log/src/nrf_log_backend_serial.c \
+	$(SDK_ROOT)/components/libraries/log/src/nrf_log_default_backends.c \
+	$(SDK_ROOT)/components/libraries/log/src/nrf_log_frontend.c \
+	$(SDK_ROOT)/components/libraries/log/src/nrf_log_str_formatter.c \
+	$(SDK_ROOT)/components/libraries/low_power_pwm/low_power_pwm.c \
+	$(SDK_ROOT)/components/libraries/memobj/nrf_memobj.c \
+	$(SDK_ROOT)/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c \
+    $(SDK_ROOT)/components/libraries/queue/nrf_queue.c \
+	$(SDK_ROOT)/components/libraries/ringbuf/nrf_ringbuf.c \
+	$(SDK_ROOT)/components/libraries/scheduler/app_scheduler.c \
+	$(SDK_ROOT)/components/libraries/sortlist/nrf_sortlist.c \
+	$(SDK_ROOT)/components/libraries/strerror/nrf_strerror.c \
+	$(SDK_ROOT)/components/libraries/timer/app_timer2.c \
+	$(SDK_ROOT)/components/libraries/timer/drv_rtc.c \
+	$(SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
+	$(SDK_ROOT)/components/libraries/usbd/app_usbd.c \
+	$(SDK_ROOT)/components/libraries/usbd/app_usbd_core.c \
+	$(SDK_ROOT)/components/libraries/usbd/app_usbd_string_desc.c \
+	$(SDK_ROOT)/components/libraries/usbd/class/hid/app_usbd_hid.c \
 	$(SDK_ROOT)/components/libraries/util/app_error.c \
 	$(SDK_ROOT)/components/libraries/util/app_error_handler_gcc.c \
 	$(SDK_ROOT)/components/libraries/util/app_error_weak.c \
-	$(SDK_ROOT)/components/libraries/scheduler/app_scheduler.c \
-	$(SDK_ROOT)/components/libraries/timer/app_timer2.c \
-	$(SDK_ROOT)/components/libraries/timer/drv_rtc.c \
-	$(SDK_ROOT)/components/libraries/sortlist/nrf_sortlist.c \
 	$(SDK_ROOT)/components/libraries/util/app_util_platform.c \
-	$(SDK_ROOT)/components/libraries/crc16/crc16.c \
-	$(SDK_ROOT)/components/libraries/fds/fds.c \
-	$(SDK_ROOT)/components/libraries/hardfault/hardfault_implementation.c \
 	$(SDK_ROOT)/components/libraries/util/nrf_assert.c \
-	$(SDK_ROOT)/components/libraries/atomic_fifo/nrf_atfifo.c \
-	$(SDK_ROOT)/components/libraries/atomic_flags/nrf_atflags.c \
-	$(SDK_ROOT)/components/libraries/atomic/nrf_atomic.c \
-	$(SDK_ROOT)/components/libraries/balloc/nrf_balloc.c \
+	$(SDK_ROOT)/components/softdevice/common/nrf_sdh.c \
+	$(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
+	$(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
 	$(SDK_ROOT)/external/fprintf/nrf_fprintf.c \
 	$(SDK_ROOT)/external/fprintf/nrf_fprintf_format.c \
-	$(SDK_ROOT)/components/libraries/fstorage/nrf_fstorage.c \
-	$(SDK_ROOT)/components/libraries/fstorage/nrf_fstorage_sd.c \
-	$(SDK_ROOT)/components/libraries/memobj/nrf_memobj.c \
-	$(SDK_ROOT)/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c \
-	$(SDK_ROOT)/components/libraries/ringbuf/nrf_ringbuf.c \
-	$(SDK_ROOT)/components/libraries/experimental_section_vars/nrf_section_iter.c \
-	$(SDK_ROOT)/components/libraries/strerror/nrf_strerror.c \
-	$(SDK_ROOT)/components/libraries/bootloader/dfu/nrf_dfu_svci.c \
-	$(SDK_ROOT)/components/libraries/low_power_pwm/low_power_pwm.c \
-	$(SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
-	$(SDK_ROOT)/components/libraries/fifo/app_fifo.c \
+	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT.c \
+	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c \
+	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c \
 	$(SDK_ROOT)/modules/nrfx/soc/nrfx_atomic.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_clock.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
@@ -59,38 +101,6 @@ SRC_FILES += \
 	$(APP_SRC_DIR)/ble/ble_services.c \
 	$(APP_SRC_DIR)/ble/ble_hid_service.c \
 	$(APP_SRC_DIR)/ble/ble_bas_service.c \
-	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT.c \
-	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c \
-	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c \
-	$(SDK_ROOT)/components/ble/peer_manager/auth_status_tracker.c \
-	$(SDK_ROOT)/components/ble/common/ble_advdata.c \
-	$(SDK_ROOT)/components/ble/ble_advertising/ble_advertising.c \
-	$(SDK_ROOT)/components/ble/common/ble_conn_params.c \
-	$(SDK_ROOT)/components/ble/common/ble_conn_state.c \
-	$(SDK_ROOT)/components/ble/ble_link_ctx_manager/ble_link_ctx_manager.c \
-	$(SDK_ROOT)/components/ble/common/ble_srv_common.c \
-	$(SDK_ROOT)/components/ble/peer_manager/gatt_cache_manager.c \
-	$(SDK_ROOT)/components/ble/peer_manager/gatts_cache_manager.c \
-	$(SDK_ROOT)/components/ble/peer_manager/id_manager.c \
-	$(SDK_ROOT)/components/ble/nrf_ble_gatt/nrf_ble_gatt.c \
-	$(SDK_ROOT)/components/ble/nrf_ble_qwr/nrf_ble_qwr.c \
-	$(SDK_ROOT)/components/ble/peer_manager/peer_data_storage.c \
-	$(SDK_ROOT)/components/ble/peer_manager/peer_database.c \
-	$(SDK_ROOT)/components/ble/peer_manager/peer_id.c \
-	$(SDK_ROOT)/components/ble/peer_manager/peer_manager.c \
-	$(SDK_ROOT)/components/ble/peer_manager/peer_manager_handler.c \
-	$(SDK_ROOT)/components/ble/peer_manager/pm_buffer.c \
-	$(SDK_ROOT)/components/ble/peer_manager/security_dispatcher.c \
-	$(SDK_ROOT)/components/ble/peer_manager/security_manager.c \
-	$(SDK_ROOT)/components/ble/ble_services/ble_bas/ble_bas.c \
-	$(SDK_ROOT)/components/ble/ble_services/ble_dis/ble_dis.c \
-	$(SDK_ROOT)/components/ble/ble_services/ble_hids/ble_hids.c \
-	$(SDK_ROOT)/components/ble/ble_services/ble_dfu/ble_dfu.c \
-	$(SDK_ROOT)/components/ble/ble_services/ble_dfu/ble_dfu_bonded.c \
-	$(SDK_ROOT)/components/ble/ble_services/ble_dfu/ble_dfu_unbonded.c \
-	$(SDK_ROOT)/components/softdevice/common/nrf_sdh.c \
-	$(SDK_ROOT)/components/softdevice/common/nrf_sdh_ble.c \
-	$(SDK_ROOT)/components/softdevice/common/nrf_sdh_soc.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -170,6 +180,8 @@ INC_FOLDERS += \
 
 # Libraries common to all targets
 LIB_FILES += \
+
+OPT_DEFS = $(TMK_COMMON_DEFS)
 
 # Optimization flags
 OPT = -Os -g3
@@ -337,4 +349,4 @@ CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_
 sdk_config:
 	java -jar $(CMSIS_CONFIG_TOOL) $(SDK_CONFIG_FILE)
 
-include $(APP_PROJ_DIR)/bl.mk
+#include $(APP_PROJ_DIR)/bl.mk
