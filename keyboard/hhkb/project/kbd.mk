@@ -8,7 +8,7 @@ SRC_FILES +=  \
 	$(KEY_SRC_DIR)/protocol/usb/nrf5_usb.c \
 	$(KEY_SRC_DIR)/protocol/usb/fixed/app_usbd_hid_generic.c \
 	$(KEY_SRC_DIR)/protocol/ble/ble_service.c \
-	$(KEY_SRC_DIR)/protocol/ble/ble_hids_service.c\
+	$(KEY_SRC_DIR)/protocol/ble/ble_hids_service.c \
     $(KEY_COMMON_DIR)/outputselect.c \
 	$(KEY_COMMON_PLATFORM_DIR)/i2c_master.c \
 	$(KEY_COMMON_PLATFORM_DIR)/suspend.c \

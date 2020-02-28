@@ -1,7 +1,9 @@
 # 配置项：主控芯片类型
 # 可选：nrf52840
+MCU = NRF52840
 NRF_CHIP := nrf52840
 PLATFORM := nrf5
+PROTOCOL_NRF5 = yes
 
 # 配置项：功能选项
 # 关于更多的可配置项目，请参考doc目录下的相应文档

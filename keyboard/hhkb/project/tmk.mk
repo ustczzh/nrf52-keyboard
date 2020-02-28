@@ -1,10 +1,11 @@
 
-SRC_FILES += $(TMK_COMMON_DIR)/host.c \
-	$(TMK_COMMON_DIR)/keyboard.c \
-	$(TMK_COMMON_DIR)/matrix.c \
-	$(TMK_COMMON_DIR)/action.c \
+SRC_FILES += \
+    $(KEY_COMMON_DIR)/nrf5_host.c \
+	$(KEY_COMMON_DIR)/nrf5_keyboard.c \
+	$(KEY_COMMON_DIR)/nrf5_matrix.c \
+	$(KEY_COMMON_DIR)/nrf5_action.c \
 	$(TMK_COMMON_DIR)/action_tapping.c \
-    $(TMK_COMMON_DIR)/action_macro.c \
+    $(KEY_COMMON_DIR)/nrf5_action_macro.c \
 	$(TMK_COMMON_DIR)/action_layer.c \
 	$(TMK_COMMON_DIR)/action_util.c \
 	$(TMK_COMMON_DIR)/print.c \
@@ -14,10 +15,11 @@ SRC_FILES += $(TMK_COMMON_DIR)/host.c \
 
 
 INC_FOLDERS += \
+    $(KEY_COMMON_DIR) \
     $(TMK_CORE_DIR) \
     $(TMK_COMMON_DIR)
 
-SHARED_EP_ENABLE = no
+SHARED_EP_ENABLE ?= yes
 MOUSE_SHARED_EP ?= yes
 
 # Option modules
@@ -72,7 +74,7 @@ endif
 
 ifeq (yes,$(strip $(NKRO_ENABLE)))
     TMK_COMMON_DEFS += -DNKRO_ENABLE
-    TMK_COMMON_DEFS += -DPROTOCOL_LUFA
+    # TMK_COMMON_DEFS += -DPROTOCOL_LUFA
     SHARED_EP_ENABLE = yes
 endif
 

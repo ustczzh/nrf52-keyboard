@@ -30,16 +30,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CONF_PRODUCT_ID 0x0514 /* 配置项目内显示的ProductID */
 #define DEVICE_VER 0x0001 /* 硬件版本 */
 #define MANUFACTURER "ZZZ" /* 硬件制造商，用于蓝牙显示 */
-#define PRODUCT "BLE HHKB" /* 硬件名称，用于USB和蓝牙显示 */
+#define PRODUCT "BLE5 HHKB" /* 硬件名称，用于USB和蓝牙显示 */
 #define MACADDR_SEPRATOR '_' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
 /* 蓝牙 */
 #define BLUETOOTH_ENABLE
 
-
 /* USB HID report parameter */
 #define KEYBOARD_EPSIZE 8 /* 键盘上传端点大小，请不要修改 */
 #define NKRO_EPSIZE 28 /* 键盘NKRO端点大小，请不要修改 */
+// #define BLE_NKRO
+// Force NKRO
+// #define FORCE_NKRO
+// Enable watchdog
+// #define KBD_WDT_ENABLE
+#define MAX_ENDPOINTS 8
 
 // 定义Bootmagic按键
 #define BOOTMAGIC_KEY_BOOT KC_U /* 开机 */
@@ -147,8 +152,8 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
 /* define if matrix has ghost */
 // #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
 
-#define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
-#define MATRIX_SCAN_DELAY_CYCLE 36 /* 按键扫描等待IO稳定的延时时长 */
+//#define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
+//#define MATRIX_SCAN_DELAY_CYCLE 36 /* 按键扫描等待IO稳定的延时时长 */
 
 
 
@@ -158,7 +163,6 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
     { 26, 41, 8, 3 }
 #define MATRIX_COL_PINS \
     { 6, 45, 7, 38, 12, 36, 34, 32, 24, 13, 20, 22 }
-#define DEBOUNCE 20
 
 
 #define PERMISSVIE_HOLD
@@ -200,36 +204,5 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
 #define I2C1_SCL 15
 // The pin number for SDA pin
 #define I2C1_SDA 17
-// #define BLE_NKRO
-// Force NKRO
-// #define FORCE_NKRO
-#define NKRO_EPSIZE 22
-// Enable watchdog
-// #define KBD_WDT_ENABLE
-#define MAX_ENDPOINTS 8
-
-/*
- * MIDI options
- */
-
-/* Prevent use of disabled MIDI features in the keymap */
-//#define MIDI_ENABLE_STRICT 1
-
-/* enable basic MIDI features:
-   - MIDI notes can be sent when in Music mode is on
-*/
-
-//#define MIDI_BASIC
-
-/* enable advanced MIDI features:
-   - MIDI notes can be added to the keymap
-   - Octave shift and transpose
-   - Virtual sustain, portamento, and modulation wheel
-   - etc.
-*/
-//#define MIDI_ADVANCED
-
-/* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
-//#define MIDI_TONE_KEYCODE_OCTAVES 6
 
 #endif

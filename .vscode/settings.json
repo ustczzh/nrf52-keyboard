@@ -141,7 +141,8 @@
         "nrf_drv_usbd.h": "c",
         "app_util_platform.h": "c",
         "nrfx_usbd.h": "c",
-        "usb.h": "c"
+        "usb.h": "c",
+        "report_nrf5.h": "c"
     },
     "C_Cpp.default.includePath": [
         "C:/Program Files (x86)/GNU Tools ARM Embedded/7 2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include",

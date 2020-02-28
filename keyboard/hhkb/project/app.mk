@@ -117,11 +117,12 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/balloc \
 	$(SDK_ROOT)/components/libraries/bootloader/dfu \
 	$(SDK_ROOT)/components/libraries/crc16 \
+	$(SDK_ROOT)/components/libraries/delay \
 	$(SDK_ROOT)/components/libraries/experimental_section_vars \
 	$(SDK_ROOT)/components/libraries/fds \
 	$(SDK_ROOT)/components/libraries/fifo \
 	$(SDK_ROOT)/components/libraries/fstorage \
-	$(SDK_ROOT)/components/libraries/hardfault/hardfault_implementation.c \
+	$(SDK_ROOT)/components/libraries/hardfault \
 	$(SDK_ROOT)/components/libraries/log/src \
 	$(SDK_ROOT)/components/libraries/low_power_pwm \
 	$(SDK_ROOT)/components/libraries/memobj \
@@ -137,14 +138,19 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/usbd/class/hid \
 	$(SDK_ROOT)/components/libraries/util \
 	$(SDK_ROOT)/components/softdevice/common \
+	$(SDK_ROOT)/components/toolchain/cmsis/include \
 	$(SDK_ROOT)/external/fprintf \
 	$(SDK_ROOT)/external/segger_rtt \
-	$(SDK_ROOT)/modules/nrfx/soc \
+	$(SDK_ROOT)/integration/nrfx \
+	$(SDK_ROOT)/integration/nrfx/legacy \
+	$(SDK_ROOT)/modules/nrfx \
+	$(SDK_ROOT)/modules/nrfx/drivers/include \
 	$(SDK_ROOT)/modules/nrfx/drivers/src \
-	$(SDK_ROOT)/modules/nrfx/drivers/src/prs
+	$(SDK_ROOT)/modules/nrfx/drivers/src/prs \
+	$(SDK_ROOT)/modules/nrfx/hal \
+	$(SDK_ROOT)/modules/nrfx/mdk \
+	$(SDK_ROOT)/modules/nrfx/soc
 
-# Libraries common to all targets
-LIB_FILES += \
 
 ifeq ($(NRF_DEBUG), yes)
   TMK_COMMON_DEFS += -DNRF_LOG_ENABLED=1
@@ -178,6 +184,7 @@ CFLAGS += -DNRF_SD_BLE_API_VERSION=6
 CFLAGS += -DSOFTDEVICE_PRESENT
 CFLAGS += -DSWI_DISABLE0
 CFLAGS += -DUSE_CUSTOM_CONFIG
+CFLAGS += -DPROTOCOL_NRF5
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
 CFLAGS += -Wall -Werror
@@ -206,6 +213,7 @@ ASMFLAGS += -DNRF_SD_BLE_API_VERSION=6
 ASMFLAGS += -DSOFTDEVICE_PRESENT
 ASMFLAGS += -DSWI_DISABLE0
 ASMFLAGS += -DUSE_CUSTOM_CONFIG
+ASMFLAGS += -DPROTOCOL_NRF5
 ifdef CONFIG_H
 #    ASFLAGS += -include $(CONFIG_H)
 endif
@@ -251,7 +259,7 @@ help:
 	@echo All targets starts with "flash" could has prefix "pyocd_", which \
 	means use pyocd to flash chip. 
 
-
+VERBOSE = 1
 include $(TEMPLATE_PATH)/Makefile.common
 
 $(foreach target, $(TARGETS), $(call define_target, $(target)))
