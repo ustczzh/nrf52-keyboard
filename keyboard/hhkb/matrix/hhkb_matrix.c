@@ -24,20 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "nrf.h"
 #include "nrf_delay.h"
 #include "nrf_gpio.h"
-#include "nrfx_wdt.h"
-#include "nrfx_clock.h"
+//#include "nrf_drv_clock.h"
 
 #include "hhkb_nrf5.h"
-
-#include "../../config/keyboard_config.h"
-#include "ble_keyboard.h"
 
 #include "matrix.h"
 #include "print.h"
 #include "debug.h"
 #include "util.h"
-#include "lufa.h"
-
+#include "timer.h"
 
 // matrix power saving. 32768 ticks/second * 100 second
 #define MATRIX_POWER_SAVE       3276800

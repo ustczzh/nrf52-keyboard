@@ -144,15 +144,16 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/toolchain/cmsis/include \
 	$(SDK_ROOT)/external/fprintf \
 	$(SDK_ROOT)/external/segger_rtt \
-	$(SDK_ROOT)/integration/nrfx \
-	$(SDK_ROOT)/integration/nrfx/legacy \
 	$(SDK_ROOT)/modules/nrfx \
 	$(SDK_ROOT)/modules/nrfx/drivers/include \
 	$(SDK_ROOT)/modules/nrfx/drivers/src \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/prs \
 	$(SDK_ROOT)/modules/nrfx/hal \
 	$(SDK_ROOT)/modules/nrfx/mdk \
-	$(SDK_ROOT)/modules/nrfx/soc
+	$(SDK_ROOT)/modules/nrfx/soc \
+	$(SDK_ROOT)/modules/nrfx/templates \
+	$(SDK_ROOT)/integration/nrfx \
+	$(SDK_ROOT)/integration/nrfx/legacy
 
 
 ifeq ($(NRF_DEBUG), yes)

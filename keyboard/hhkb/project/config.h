@@ -160,9 +160,9 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
 
 // NRF52840 pin map: ((port << 5) | (pin & 0x1F))
 #define MATRIX_ROW_PINS \
-    { 26, 41, 8, 3 }
+    { row0_pin, row1_pin, row2_pin }
 #define MATRIX_COL_PINS \
-    { 6, 45, 7, 38, 12, 36, 34, 32, 24, 13, 20, 22 }
+    { col0_pin, col1_pin, col2_pin }
 
 
 #define PERMISSVIE_HOLD

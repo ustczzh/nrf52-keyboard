@@ -3,8 +3,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-//#include <avr/io.h>
-//#include <avr/interrupt.h>
 //#include <util/delay.h>
 #include "nrf.h"
 #include "nrf_delay.h"
@@ -235,3 +233,5 @@ static inline void KEY_SELECT(uint8_t ROW, uint8_t COL)
 #endif
  */
 }
+
+#endif

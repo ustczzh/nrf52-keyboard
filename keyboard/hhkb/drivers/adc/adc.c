@@ -16,50 +16,52 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdint.h>
+
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 
-#include "nrfx_saadc.h"
+//#include "nrf_saadc.h"
+//#include "nrfx_saadc.h"
+#include "nrf_drv_saadc.h"
 
-#include "adc.h"
-#include "ble_service.h"
+#include "bat.h"
 
 #define SAMPLES_BUFFER_LEN 4
 static nrf_saadc_value_t adc_buffer[2][SAMPLES_BUFFER_LEN];
 
-static void adc_event_handler(nrfx_saadc_evt_t const* p_event) {
+static void adc_event_handler(nrf_drv_saadc_evt_t const* p_event) {
     if (p_event->type == NRFX_SAADC_EVT_DONE) {
         ret_code_t        err_code;
         nrf_saadc_value_t value = 0;
         for (int i = 0; i < p_event->data.done.size; i++) {
             value += p_event->data.done.p_buffer[i];
-            // NRF_LOG_INFO("%d asdlfkj %d\r\n", i, p_event->data.done.p_buffer[i]);
+            NRF_LOG_INFO("%d asdlfkj %d\r\n", i, p_event->data.done.p_buffer[i]);
         }
 
         battery_level_update(value, p_event->data.done.size);
 
-        err_code = nrfx_saadc_buffer_convert(p_event->data.done.p_buffer, SAMPLES_BUFFER_LEN);
+        err_code = nrf_drv_saadc_buffer_convert(p_event->data.done.p_buffer, SAMPLES_BUFFER_LEN);
         APP_ERROR_CHECK(err_code);
     }
 }
 
 void adc_init() {
     ret_code_t                 err_code;
-    nrf_saadc_channel_config_t channel_config = NRFX_SAADC_DEFAULT_CHANNEL_CONFIG_SE(BATTERY_ADC_PIN);
+    nrf_saadc_channel_config_t channel_config = NRF_DRV_SAADC_DEFAULT_CHANNEL_CONFIG_SE(BATTERY_ADC_PIN);
 
-    err_code = nrfx_saadc_init(NULL, adc_event_handler);
+    err_code = nrf_drv_saadc_init(NULL, adc_event_handler);
     APP_ERROR_CHECK(err_code);
 
     // 注册通道
-    err_code = nrfx_saadc_channel_init(0, &channel_config);
+    err_code = nrf_drv_saadc_channel_init(0, &channel_config);
     APP_ERROR_CHECK(err_code);
 
     // 注册buffer
-    err_code = nrfx_saadc_buffer_convert(adc_buffer[0], SAMPLES_BUFFER_LEN);
+    err_code = nrf_drv_saadc_buffer_convert(adc_buffer[0], SAMPLES_BUFFER_LEN);
     APP_ERROR_CHECK(err_code);
 
-    err_code = nrfx_saadc_buffer_convert(adc_buffer[1], SAMPLES_BUFFER_LEN);
+    err_code = nrf_drv_saadc_buffer_convert(adc_buffer[1], SAMPLES_BUFFER_LEN);
     APP_ERROR_CHECK(err_code);
 }
 
-void adc_start() { nrfx_saadc_sample(); }
+void adc_start() { nrf_drv_saadc_sample(); }

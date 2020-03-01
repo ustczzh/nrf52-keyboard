@@ -1,6 +1,20 @@
 
-#include "bat.h"
+#include <stdint.h>
+#include <string.h>
 
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+
+#include "nrf_sdh.h"
+#include "nrf_sdh_soc.h"
+
+#include "nrf_gpio.h"
+#include "nrf_pwr_mgmt.h"
+#include "nrf_power.h"
+#include "nrf_drv_saadc.h"
+
+#include "adc.h"
+#include "bat.h"
 
 /**@brief Function for performing a battery measurement, and update the Battery Level characteristic in the Battery Service.
  */
@@ -48,7 +62,7 @@ static void battery_level_meas_timeout_handler(void *p_context) {
     }
 #endif
 #ifdef KBD_WDT_ENABLE
-    nrfx_wdt_channel_feed(m_channel_id);
+    nrf_drv_wdt_channel_feed(m_channel_id);
 #endif
     adc_start();
 }
@@ -61,7 +75,7 @@ void reset_power_save_counter() {
 
 /**@brief Function for the Timer initialization.
  */
-static void bat_timers_create(void) {
+void bat_timers_create(void) {
     ret_code_t err_code;
 
     // Create battery timer.
@@ -71,7 +85,7 @@ static void bat_timers_create(void) {
 
 /**@brief Function for starting timers.
  */
-static void bat_timers_start(void) {
+void bat_timers_start(void) {
     ret_code_t err_code;
 
     err_code = app_timer_start(m_battery_timer_id, BATTERY_LEVEL_MEAS_INTERVAL, NULL);
@@ -82,7 +96,7 @@ static void bat_timers_start(void) {
  *
  * @note This function will not return.
  */
-static void sleep_mode_enter(void) {
+void sleep_mode_enter(void) {
 #ifdef IS31FL3737
     i2c_stop();
 #endif
@@ -122,7 +136,7 @@ void deep_sleep_mode_enter(void) {
 
 /**@brief Function for initializing power management.
  */
-static void power_management_init(void) {
+void power_management_init(void) {
     ret_code_t err_code;
     err_code = nrf_pwr_mgmt_init();
     APP_ERROR_CHECK(err_code);
