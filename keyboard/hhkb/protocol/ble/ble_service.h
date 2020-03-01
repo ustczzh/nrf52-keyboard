@@ -10,4 +10,3 @@ void advertising_without_whitelist(void);
 void restart_advertising_id(uint8_t id);
 void ble_service_init(void);
 void ble_disconnect(void);
-// void send_midis(void);

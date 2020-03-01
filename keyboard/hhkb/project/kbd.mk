@@ -14,6 +14,7 @@ SRC_FILES +=  \
 	$(KEY_COMMON_PLATFORM_DIR)/suspend.c \
 	$(KEY_COMMON_PLATFORM_DIR)/timer.c \
 	$(KEY_COMMON_PLATFORM_DIR)/bootloader.c \
+    $(KEY_COMMON_PLATFORM_DIR)/eeconfig.c \
     $(KEY_COMMON_PLATFORM_DIR)/eeprom.c
 
 

@@ -1,11 +1,11 @@
 
 SRC_FILES += \
-    $(KEY_COMMON_DIR)/nrf5_host.c \
-	$(KEY_COMMON_DIR)/nrf5_keyboard.c \
-	$(KEY_COMMON_DIR)/nrf5_matrix.c \
-	$(KEY_COMMON_DIR)/nrf5_action.c \
+    $(TMK_COMMON_DIR)/host.c \
+	$(TMK_COMMON_DIR)/keyboard.c \
+	$(TMK_COMMON_DIR)/matrix.c \
+	$(TMK_COMMON_DIR)/action.c \
 	$(TMK_COMMON_DIR)/action_tapping.c \
-    $(KEY_COMMON_DIR)/nrf5_action_macro.c \
+    $(TMK_COMMON_DIR)/action_macro.c \
 	$(TMK_COMMON_DIR)/action_layer.c \
 	$(TMK_COMMON_DIR)/action_util.c \
 	$(TMK_COMMON_DIR)/print.c \
@@ -38,7 +38,7 @@ endif
 
 ifeq (yes,$(strip $(BOOTMAGIC_ENABLE)))
     SRC_FILES += $(TMK_COMMON_DIR)/bootmagic.c
-    SRC_FILES += $(APP_SRC_DIR)/tmk/eeconfig.c
+    #SRC_FILES += $(APP_SRC_DIR)/tmk/eeconfig.c
     TMK_COMMON_DEFS += -DBOOTMAGIC_ENABLE
 else
     SRC_FILES += $(APP_SRC_DIR)/keyboard/keyboard_bootcheck.c
@@ -68,7 +68,8 @@ else
 endif
 
 ifeq (yes,$(strip $(COMMAND_ENABLE)))
-    SRC_FILES += $(APP_SRC_DIR)/keyboard/keyboard_command.c
+    #SRC_FILES += $(APP_SRC_DIR)/keyboard/keyboard_command.c
+    SRC_FILES += $(TMK_COMMON_DIR)/command.c
     TMK_COMMON_DEFS += -DCOMMAND_ENABLE
 endif
 

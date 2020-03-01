@@ -13,7 +13,6 @@
 #include "app_usbd.h"
 #include "app_usbd_core.h"
 #include "app_usbd_hid_generic.h"
-#include "app_usbd_audio.h"
 #include "app_error.h"
 #include "boards.h"
 

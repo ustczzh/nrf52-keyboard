@@ -274,24 +274,6 @@ static void send_consumer(uint16_t data) {
 #endif
 }
 
-#ifdef MIDI_ENABLE
-
-void send_midi_packet(MIDI_EventPacket_t *event) {
-    // NRF_LOG_INFO("asdfjkl %d", sizeof(MIDI_EventPacket_t));
-    // NRF_LOG_INFO("asdfjkl %d %d", event->Event, event->Data1);
-    // app_usbd_audio_class_tx_start(&m_app_audio_microphone.base, (uint8_t *)event, sizeof(MIDI_EventPacket_t));
-
-    // NRF_LOG_INFO("EPINEN: %d", NRF_USBD->EPINEN);
-    // chnWrite(&drivers.midi_driver.driver, (uint8_t *)event, sizeof(MIDI_EventPacket_t));
-}
-
-bool recv_midi_packet(MIDI_EventPacket_t *const event) {
-    // size_t size = chnReadTimeout(&drivers.midi_driver.driver, (uint8_t *)event, sizeof(MIDI_EventPacket_t), TIME_IMMEDIATE);
-    // return size == sizeof(MIDI_EventPacket_t);
-    return 0;
-}
-
-#endif
 
 #include "nrf_delay.h"
 void usb_keyboard_init(void) {

@@ -65,7 +65,6 @@
 #include "nrf_ble_gatt.h"
 #include "nrf_ble_qwr.h"
 #include "peer_manager_handler.h"
-// #include "ble_midi.h"
 #include "ble_dfu.h"
 #include "nrf_bootloader_info.h"
 #include "nrfx_wdt.h"
@@ -126,15 +125,6 @@ nrfx_wdt_channel_id m_channel_id;
 NRF_BLE_GATT_DEF(m_gatt);           /**< GATT module instance. */
 NRF_BLE_QWR_DEF(m_qwr);             /**< Context for the Queued Write module.*/
 BLE_ADVERTISING_DEF(m_advertising); /**< Advertising module instance. */
-
-// BLE_MIDI_DEF(m_midi, NRF_SDH_BLE_TOTAL_LINK_COUNT);
-// #define MIDI_SERVICE_UUID_TYPE          BLE_UUID_TYPE_VENDOR_BEGIN                  /**< UUID type for the MIDI Service (vendor specific). */
-
-// static ble_uuid_t m_adv_uuids[]           =                                          /**< Universally unique service identifier. */
-// {
-//     {BLE_UUID_MIDI_SERVICE, MIDI_SERVICE_UUID_TYPE}
-// };
-// static uint16_t   m_ble_midi_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - 3;            /**< Maximum length of data (in bytes) that can be transmitted to the peer by the MIDI service module. */
 
 static pm_peer_id_t m_peer_id;
 static uint32_t     m_whitelist_peer_cnt;
@@ -484,20 +474,6 @@ static void gap_params_init(void) {
     APP_ERROR_CHECK(err_code);
 }
 
-// /**@brief Function for handling events from the GATT library. */
-// void gatt_evt_handler(nrf_ble_gatt_t * p_gatt, nrf_ble_gatt_evt_t const * p_evt)
-// {
-//     if ((m_conn_handle == p_evt->conn_handle) && (p_evt->evt_id == NRF_BLE_GATT_EVT_ATT_MTU_UPDATED))
-//     {
-//         m_ble_midi_max_data_len = p_evt->params.att_mtu_effective - OPCODE_LENGTH - HANDLE_LENGTH;
-//         NRF_LOG_INFO("Data len is set to 0x%X(%d)", m_ble_midi_max_data_len, m_ble_midi_max_data_len);
-//         ble_midi_data_len_set(&m_midi, m_ble_midi_max_data_len);
-//     }
-//     NRF_LOG_INFO("ATT MTU exchange completed. central 0x%x peripheral 0x%x",
-//                   p_gatt->att_mtu_desired_central,
-//                   p_gatt->att_mtu_desired_periph);
-// }
-
 /**@brief Function for initializing the GATT module.
  */
 static void gatt_init(void) {
@@ -578,44 +554,6 @@ static void bas_init(void) {
     APP_ERROR_CHECK(err_code);
 }
 
-// /**@brief Function for handling the data from the MIDI Service.
-//  *
-//  * @param[in] p_evt MIDI Service event.
-//  */
-// static void midis_data_handler(ble_midis_evt_t * p_evt)
-// {
-
-//     if (p_evt->type == BLE_MIDI_EVT_NOTIF_STARTED)
-//     {
-//         NRF_LOG_INFO("Notifications enabled.");
-//     }
-//     if (p_evt->type == BLE_MIDI_EVT_NOTIF_STOPPED)
-//     {
-//         NRF_LOG_INFO("Notifications disabled.");
-//     }
-//     if (p_evt->type == BLE_MIDI_EVT_RX_DATA)
-//     {
-//         NRF_LOG_DEBUG("Received data from MIDI Service.");
-//         NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
-//     }
-
-// }
-
-// static void midi_init(void)
-// {
-//     uint32_t           err_code;
-//     ble_midis_init_t   midis_init;
-
-//     // Initialize MIDI Service.
-//     memset(&midis_init, 0, sizeof(midis_init));
-
-//     midis_init.data_handler = midis_data_handler;
-//     midis_init.make_data_running = true;
-
-//     err_code = ble_midis_init(&m_midi, &midis_init);
-//     APP_ERROR_CHECK(err_code);
-// }
-
 /**@brief Function for initializing services that will be used by the application.
  */
 static void services_init(void) {
@@ -624,8 +562,6 @@ static void services_init(void) {
     dfu_init();
     bas_init();
     hids_kbd_init();
-
-    // midi_init();
 }
 
 /**@brief Function for handling a Connection Parameters error.
@@ -951,33 +887,6 @@ static void advertising_init(void) {
 // 	uint32_t ms = ms_per_tick * ticks;
 
 // 	return ms;
-// }
-
-// void send_midis() {
-//     uint32_t timestamp_ticks  = app_timer_cnt_get();
-//     uint32_t timestamp_ms     = app_timer_ms(timestamp_ticks);
-//     uint32_t err_code;
-//     uint8_t midi_msg_buffer[] =
-//         {
-//             (MIDI_CH_NOTE_ON | MIDI_CHANNEL_1),  //Status       (Channel)
-//             60,                                  //Data1        (C note)
-//             MIDI_VELOCITY_MAX,                   //Data2        (Velocity)
-//             64,                                  //Running data (E note)
-//             MIDI_VELOCITY_MAX,                   //Running data (Velocity)
-//             MIDI_SYS_RT_CONTINUE,                //Status       (System Real Time)
-//             (MIDI_CH_NOTE_ON | MIDI_CHANNEL_1),  //Status       (Channel)
-//             67,                                  //Data1        (G Note)
-//             MIDI_VELOCITY_MAX                    //Data2        (Velocity)
-//         };
-
-//         uint8_array_t midi_array;
-//         midi_array.p_data = midi_msg_buffer;
-//         midi_array.size   = sizeof(midi_msg_buffer);
-//         err_code = ble_midi_msgs_send(&m_midi,
-//                            &timestamp_ms,
-//                            m_conn_handle,
-//                            midi_array);
-//     NRF_LOG_INFO("send_midis err_code: %d",err_code);
 // }
 
 /**@brief Function for application main entry.

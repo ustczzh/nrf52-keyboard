@@ -6187,7 +6187,7 @@
 
 
 #ifndef APP_USBD_AUDIO_ENABLED
-#define APP_USBD_AUDIO_ENABLED 1
+#define APP_USBD_AUDIO_ENABLED 0
 #endif
 
 // <e> APP_USBD_ENABLED - app_usbd - USB Device library

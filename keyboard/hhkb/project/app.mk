@@ -111,6 +111,7 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/ble/nrf_ble_gatt \
 	$(SDK_ROOT)/components/ble/nrf_ble_qwr \
 	$(SDK_ROOT)/components/ble/peer_manager \
+	$(SDK_ROOT)/components/boards \
 	$(SDK_ROOT)/components/libraries/atomic \
 	$(SDK_ROOT)/components/libraries/atomic_fifo \
 	$(SDK_ROOT)/components/libraries/atomic_flags \
@@ -123,6 +124,7 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/fifo \
 	$(SDK_ROOT)/components/libraries/fstorage \
 	$(SDK_ROOT)/components/libraries/hardfault \
+	$(SDK_ROOT)/components/libraries/log \
 	$(SDK_ROOT)/components/libraries/log/src \
 	$(SDK_ROOT)/components/libraries/low_power_pwm \
 	$(SDK_ROOT)/components/libraries/memobj \
@@ -136,6 +138,7 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/uart \
 	$(SDK_ROOT)/components/libraries/usbd \
 	$(SDK_ROOT)/components/libraries/usbd/class/hid \
+	$(SDK_ROOT)/components/libraries/usbd/class/hid/generic \
 	$(SDK_ROOT)/components/libraries/util \
 	$(SDK_ROOT)/components/softdevice/common \
 	$(SDK_ROOT)/components/toolchain/cmsis/include \
@@ -192,8 +195,9 @@ CFLAGS += -Wall -Werror
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin -fshort-enums
 ifdef CONFIG_H
-	 CFLAGS += -DCONFIG_H_FILE=\"$(CONFIG_H)\"
-#    CFLAGS += -include $(CONFIG_H)
+#    CFLAGS += -DCONFIG_H_FILE=\"$(CONFIG_H)\"
+    CFLAGS += -include $(CONFIG_H)
+    CFLAGS += -include $(CONFIG_H1)
 endif
 
 # C++ flags common to all targets
@@ -215,7 +219,8 @@ ASMFLAGS += -DSWI_DISABLE0
 ASMFLAGS += -DUSE_CUSTOM_CONFIG
 ASMFLAGS += -DPROTOCOL_NRF5
 ifdef CONFIG_H
-#    ASFLAGS += -include $(CONFIG_H)
+    ASFLAGS += -include $(CONFIG_H)
+    ASFLAGS += -include $(CONFIG_H1)
 endif
 
 
