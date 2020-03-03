@@ -14,13 +14,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "outputselect.h"
 
+//#include "nrf.h"
+//#include "nrf_gpio.h"
+//#include "nrf_drv_power.h"
+//#include "nrf_drv_clock.h"
+//#include "app_timer.h"
+
 #include "host.h"
 #include "nrf5_usb.h"
 #include "ble_service.h"
-
-#ifdef MODULE_ADAFRUIT_BLE
-#    include "adafruit_ble.h"
-#endif
 
 uint8_t desired_output = OUTPUT_DEFAULT;
 
@@ -59,12 +61,6 @@ __attribute__((weak)) void set_output_user(uint8_t output) {}
 //     if (USB_DeviceState == DEVICE_STATE_Configured) {
 //         return OUTPUT_USB;
 //     }
-
-// #ifdef MODULE_ADAFRUIT_BLE
-//     if (adafruit_ble_is_connected()) {
-//         return OUTPUT_BLUETOOTH;
-//     }
-// #endif
 
 // #ifdef BLUETOOTH_ENABLE
 //     return OUTPUT_BLUETOOTH; // should check if BT is connected here

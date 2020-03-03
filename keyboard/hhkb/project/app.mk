@@ -116,6 +116,7 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/atomic_fifo \
 	$(SDK_ROOT)/components/libraries/atomic_flags \
 	$(SDK_ROOT)/components/libraries/balloc \
+	$(SDK_ROOT)/components/libraries/bootloader \
 	$(SDK_ROOT)/components/libraries/bootloader/dfu \
 	$(SDK_ROOT)/components/libraries/crc16 \
 	$(SDK_ROOT)/components/libraries/delay \

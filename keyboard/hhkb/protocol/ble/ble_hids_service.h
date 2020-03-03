@@ -1,6 +1,6 @@
-
 #include <stdint.h>
 
+#include "app_error.h"
 #include "ble_hids.h"
 #include "boards.h"
 

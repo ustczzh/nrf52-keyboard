@@ -2,21 +2,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "nrf.h"
 #include "app_util_platform.h"
-#include "nrfx_usbd.h"
-#include "nrfx_clock.h"
-#include "nrf_gpio.h"
-#include "nrfx_power.h"
-
-#include "app_timer.h"
 #include "app_usbd.h"
 #include "app_usbd_core.h"
 #include "app_usbd_hid_generic.h"
 #include "app_error.h"
-#include "boards.h"
 
-#include "nrf_log.h"
 #include "host_driver.h"
 //#include "../lufa_utils/LUFA/Drivers/USB/USB.h"
 //#include "USB.h"

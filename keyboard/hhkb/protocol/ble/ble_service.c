@@ -56,18 +56,22 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "nrf_sdh.h"
+#include "nrf_sdh_soc.h"
+
+#include "nrf_ble_gatt.h"
+#include "nrf_ble_qwr.h"
 #include "ble_advertising.h"
 #include "ble_dis.h"
 #include "ble_conn_params.h"
-#include "nrf_sdh.h"
-#include "nrf_sdh_soc.h"
-#include "fds.h"
-#include "nrf_ble_gatt.h"
-#include "nrf_ble_qwr.h"
-#include "peer_manager_handler.h"
 #include "ble_dfu.h"
+
+#include "fds.h"
+#include "peer_manager_handler.h"
 #include "nrf_bootloader_info.h"
-#include "nrfx_wdt.h"
+#include "nrf_pwr_mgmt.h"
+#include "nrf_power.h"
+#include "nrf_drv_wdt.h"
 
 #include "bat.h"
 #include "ble_service.h"

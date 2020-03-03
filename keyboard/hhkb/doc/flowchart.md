@@ -129,4 +129,3 @@ st->op1->cond1
 cond1(yes)->op2(right)->cond1
 ```
 
-## 要点

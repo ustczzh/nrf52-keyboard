@@ -14,8 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bootloader.h"
+//#include "bootloader.h"
+
 #include "nrf_log.h"
+
+#include "nrf_sdh.h"
+#include "nrf_sdh_soc.h"
+#include "nrf_nvic.h"
+
 #include "nrf_power.h"
 #include "nrf_bootloader_info.h"
 

@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include "util.h"
 #include "timer.h"
+#include "suspend.h"
 
 // matrix power saving. 32768 ticks/second * 100 second
 #define MATRIX_POWER_SAVE       3276800
@@ -121,7 +122,7 @@ uint8_t matrix_scan(void)
             //    matrix[row] = matrix_prev[row];
             //}
             //(RTC_DEFAULT_CONFIG_FREQUENCY*20/1000000) = 0.65536
-            if (timer_elapsed32(uint32_t last) > 0) {
+            if (timer_elapsed32((uint32_t)last) > 0) {
                 matrix[row] = matrix_prev[row];
             }
 
@@ -146,8 +147,9 @@ uint8_t matrix_scan(void)
     }
     // power off
     if (KEY_POWER_STATE() &&
-            (USB_DeviceState == DEVICE_STATE_Suspended ||
-             USB_DeviceState == DEVICE_STATE_Unattached ) &&
+            (NRF_USBD->ENABLE) &&
+//            (USB_DeviceState == DEVICE_STATE_Suspended ||
+//             USB_DeviceState == DEVICE_STATE_Unattached ) &&
             timer_elapsed32(matrix_last_modified) > MATRIX_POWER_SAVE) {
         KEY_POWER_OFF();
         suspend_power_down();

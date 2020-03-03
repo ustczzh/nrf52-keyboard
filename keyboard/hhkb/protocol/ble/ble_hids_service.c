@@ -1,5 +1,6 @@
 #include "ble_hids_service.h"
-#include "keycode_config.h"
+#include "keymap.h"
+//#include "keycode_config.h"
 
 #define OUTPUT_REPORT_INDEX 0    /**< Index of Output Report. */
 #define OUTPUT_REPORT_MAX_LEN 1  /**< Maximum length of Output Report. */

@@ -1,10 +1,17 @@
 #include <stdint.h>
+
+#include "nrf_log.h" 
+
+#include "sdk_errors.h" 
+#include "nrf_drv_usbd.h"
+
 #include "nrf5_usb.h"
 #include "ble_service.h"
 #include "outputselect.h"
 
 #ifdef NKRO_ENABLE
-#    include "keycode_config.h"
+//#    include "keycode_config.h"
+#    include "keymap.h"
 extern keymap_config_t keymap_config;
 #endif
 
@@ -13,21 +20,21 @@ static uint8_t keyboard_led_stats = 0;
 static bool m_report_pending;
 
 static const app_usbd_hid_subclass_desc_t *keyboard_hid_report_desc[] = {&kbd_desc};
-APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_kbd, HID_KBD_INTERFACE, hid_kbd_user_ev_handler, (NRFX_USBD_EPIN6), keyboard_hid_report_desc, 1, 1, APP_USBD_HID_SUBCLASS_BOOT, APP_USBD_HID_PROTO_KEYBOARD);
+APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_kbd, HID_KBD_INTERFACE, hid_kbd_user_ev_handler, (NRFX_USBD_EPIN6), keyboard_hid_report_desc, 1, 1, 0, APP_USBD_HID_SUBCLASS_BOOT, APP_USBD_HID_PROTO_KEYBOARD);
 
 #ifdef NKRO_ENABLE
 static const app_usbd_hid_subclass_desc_t *keyboard2_hid_report_desc[] = {&kbd2_desc};
-APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_kbd2, HID_KBD2_INTERFACE, hid_kbd_user_ev_handler, (NRFX_USBD_EPIN2), keyboard2_hid_report_desc, 1, 1, APP_USBD_HID_SUBCLASS_NONE, APP_USBD_HID_PROTO_GENERIC);
+APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_kbd2, HID_KBD2_INTERFACE, hid_kbd_user_ev_handler, (NRFX_USBD_EPIN2), keyboard2_hid_report_desc, 1, 1, 0, APP_USBD_HID_SUBCLASS_NONE, APP_USBD_HID_PROTO_GENERIC);
 #endif
 
 #ifdef MOUSE_ENABLE
 static const app_usbd_hid_subclass_desc_t *mouse_hid_report_desc[] = {&mouse_desc};
-APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_mouse, HID_MOUSE_INTERFACE, hid_user_ev_handler, (NRFX_USBD_EPIN3), mouse_hid_report_desc, 1, 0, APP_USBD_HID_SUBCLASS_NONE, APP_USBD_HID_PROTO_GENERIC);
+APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_mouse, HID_MOUSE_INTERFACE, hid_user_ev_handler, (NRFX_USBD_EPIN3), mouse_hid_report_desc, 1, 0, 0, APP_USBD_HID_SUBCLASS_NONE, APP_USBD_HID_PROTO_GENERIC);
 #endif
 
 #ifdef EXTRAKEY_ENABLE
 static const app_usbd_hid_subclass_desc_t *extra_hid_report_desc[] = {&extrakey_desc};
-APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_extra, HID_EXTRA_INTERFACE, hid_user_ev_handler, (NRFX_USBD_EPIN4), extra_hid_report_desc, 1, 0, APP_USBD_HID_SUBCLASS_NONE, APP_USBD_HID_PROTO_GENERIC);
+APP_USBD_HID_GENERIC_GLOBAL_DEF(m_app_hid_extra, HID_EXTRA_INTERFACE, hid_user_ev_handler, (NRFX_USBD_EPIN4), extra_hid_report_desc, 1, 0, 0, APP_USBD_HID_SUBCLASS_NONE, APP_USBD_HID_PROTO_GENERIC);
 #endif
 
 #define REPORT_QUEUE_LEN 32

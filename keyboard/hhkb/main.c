@@ -49,7 +49,7 @@
 #include "eeprom.h"
 
 uint16_t m_conn_handle     = BLE_CONN_HANDLE_INVALID; /**< Handle of the current connection. */
-uint8_t  keyboard_protocol = 1;
+uint8_t  keyboard_protocol = 1; // default portocol
 
 APP_TIMER_DEF(m_keyboard_scan_timer); /**< keyboard scan timer. */
 

@@ -1,3 +1,4 @@
+#include "nrf_drv_saadc.h"
 
 #include "app_timer.h"
 #include "ble_bas.h"
@@ -11,14 +12,15 @@ uint16_t power_save_counter = 0;
 APP_TIMER_DEF(m_battery_timer_id);  /**< Battery timer. */
 BLE_BAS_DEF(m_bas);                 /**< Structure used to identify the battery service. */
 
-void sleep_mode_enter(void);
-
-void idle_state_handle(void);
-void deep_sleep_mode_enter(void);
-void reset_power_save_counter(void);
 void battery_level_update(nrf_saadc_value_t value, uint16_t size);
 
+void reset_power_save_counter(void);
 // Create battery timer
 void bat_timers_create(void);
 // Start battery timer
 void bat_timers_start(void);
+
+void sleep_mode_enter(void);
+void deep_sleep_mode_enter(void);
+void power_management_init(void);
+void idle_state_handle(void);

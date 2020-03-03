@@ -11,7 +11,6 @@
 #include "nrf_gpio.h"
 #include "nrf_pwr_mgmt.h"
 #include "nrf_power.h"
-#include "nrf_drv_saadc.h"
 
 #include "adc.h"
 #include "bat.h"
