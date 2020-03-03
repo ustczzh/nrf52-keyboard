@@ -38,12 +38,19 @@
  *
  */
 
+#include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
+#include "ble.h"
+
+#include "app_timer.h"
+#include "app_scheduler.h"
+
+#include "adc.h"
+#include "bat.h"
 #include "nrf5_usb.h"
 #include "ble_service.h"
-#include "ble.h"
 
 #include "keyboard.h"
 #include "eeprom.h"
@@ -123,7 +130,7 @@ int main(void) {
             /* Nothing to do */
         }
         app_sched_execute();
-        execute_event();
+        //execute_event();
         idle_state_handle();
     }
 }

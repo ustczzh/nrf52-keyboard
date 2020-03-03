@@ -117,6 +117,7 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/atomic_flags \
 	$(SDK_ROOT)/components/libraries/balloc \
 	$(SDK_ROOT)/components/libraries/bootloader \
+	$(SDK_ROOT)/components/libraries/bootloader/ble_dfu \
 	$(SDK_ROOT)/components/libraries/bootloader/dfu \
 	$(SDK_ROOT)/components/libraries/crc16 \
 	$(SDK_ROOT)/components/libraries/delay \
@@ -129,12 +130,14 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/libraries/log/src \
 	$(SDK_ROOT)/components/libraries/low_power_pwm \
 	$(SDK_ROOT)/components/libraries/memobj \
+	$(SDK_ROOT)/components/libraries/mutex \
 	$(SDK_ROOT)/components/libraries/pwr_mgmt \
     $(SDK_ROOT)/components/libraries/queue \
 	$(SDK_ROOT)/components/libraries/ringbuf \
 	$(SDK_ROOT)/components/libraries/scheduler \
 	$(SDK_ROOT)/components/libraries/sortlist \
 	$(SDK_ROOT)/components/libraries/strerror \
+	$(SDK_ROOT)/components/libraries/svc \
 	$(SDK_ROOT)/components/libraries/timer \
 	$(SDK_ROOT)/components/libraries/uart \
 	$(SDK_ROOT)/components/libraries/usbd \

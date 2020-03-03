@@ -14,8 +14,8 @@ SRC_FILES +=  \
 	$(KEY_COMMON_PLATFORM_DIR)/bootloader.c \
     $(KEY_COMMON_PLATFORM_DIR)/eeconfig.c \
     $(KEY_COMMON_PLATFORM_DIR)/eeprom.c \
-	$(KEY_COMMON_PLATFORM_DIR)/i2c_master.c \
 	$(KEY_SRC_DIR)/main.c \
+	#$(KEY_COMMON_PLATFORM_DIR)/i2c_master.c \
 
 
 INC_FOLDERS +=  \
