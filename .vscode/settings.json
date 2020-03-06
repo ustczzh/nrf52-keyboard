@@ -150,7 +150,8 @@
         "hhkb_nrf5.h": "c",
         "nrf_drv_clock.h": "c",
         "matrix.h": "c",
-        "ble.h": "c"
+        "ble.h": "c",
+        "nrfx_glue.h": "c"
     },
     "C_Cpp.default.includePath": [
         "C:/Program Files (x86)/GNU Tools ARM Embedded/7 2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include",

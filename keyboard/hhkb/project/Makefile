@@ -40,6 +40,7 @@ KEY_COMMON_PLATFORM_DIR := $(KEY_MAIN_DIR)/common/$(PLATFORM)
 
 CONFIG_H = $(KEY_PROJ_DIR)/config.h
 CONFIG_H1 = $(KEY_COMMON_DIR)/nrf5_report.h
+#CONFIG_H2 = $(KEY_SRC_DIR)/pca10056/blank/config/sdk_config.h
 
 # unimap
 SRC_FILES   += $(KEY_MAIN_DIR)/unimap/unimap_hhkb_zzh.c

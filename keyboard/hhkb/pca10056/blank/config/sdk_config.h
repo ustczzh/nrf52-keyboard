@@ -6233,6 +6233,15 @@
 #define APP_USBD_DEVICE_VER_MINOR 0
 #endif
 
+// <o> APP_USBD_DEVICE_VER_SUB - Sub-minor device version  <0-9> 
+
+
+// <i> Sub-minor device version, will be converted automatically to BCD notation. Use just decimal values.
+
+#ifndef APP_USBD_DEVICE_VER_SUB
+#define APP_USBD_DEVICE_VER_SUB 0
+#endif
+
 // <q> APP_USBD_CONFIG_SELF_POWERED  - Self-powered device, as opposed to bus-powered.
 
 
@@ -6614,7 +6623,7 @@
 // <i> Additionally, they will not be garbage collected until they are deleted.
 //==========================================================
 #ifndef FDS_CRC_CHECK_ON_READ
-#define FDS_CRC_CHECK_ON_READ 0
+#define FDS_CRC_CHECK_ON_READ 1
 #endif
 // <o> FDS_CRC_CHECK_ON_WRITE  - Perform a CRC check on newly written records.
 
@@ -6625,7 +6634,7 @@
 // <0=> Disabled
 
 #ifndef FDS_CRC_CHECK_ON_WRITE
-#define FDS_CRC_CHECK_ON_WRITE 0
+#define FDS_CRC_CHECK_ON_WRITE 1
 #endif
 
 // </e>

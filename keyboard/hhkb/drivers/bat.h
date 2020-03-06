@@ -1,10 +1,13 @@
+#ifndef BAT_H
+#define BAT_H
+
 #include "nrf_drv_saadc.h"
 
 #include "app_timer.h"
 #include "ble_bas.h"
 
 #ifdef SLEEP_OFF_TIMEOUT
-uint16_t power_save_counter = 0;
+extern uint16_t power_save_counter;
 #endif
 
 #define BATTERY_LEVEL_MEAS_INTERVAL APP_TIMER_TICKS(2000) /**< Battery level measurement interval (ticks). */
@@ -24,3 +27,5 @@ void sleep_mode_enter(void);
 void deep_sleep_mode_enter(void);
 void power_management_init(void);
 void idle_state_handle(void);
+
+#endif

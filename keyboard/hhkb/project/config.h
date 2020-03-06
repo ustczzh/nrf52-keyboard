@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define EXTRAKEY_ENABLE
 
 // 定义Bootmagic按键
+//#define BOOTMAGIC_ENABLE
 #define BOOTMAGIC_KEY_BOOT KC_U /* 开机 */
 #define BOOTMAGIC_KEY_ERASE_BOND KC_E /* 删除所有绑定 */
 

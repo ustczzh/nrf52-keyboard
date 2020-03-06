@@ -3,7 +3,7 @@
 #include "eeprom.h"
 #include "eeconfig.h"
 
-#ifdef STM32_EEPROM_ENABLE
+#ifdef SPI_FLASH_ENABLE
 #    include "hal.h"
 #    include "eeprom_stm32.h"
 #endif

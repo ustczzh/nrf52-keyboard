@@ -15,6 +15,10 @@
 #include "adc.h"
 #include "bat.h"
 
+#ifdef SLEEP_OFF_TIMEOUT
+uint16_t power_save_counter = 0;
+#endif
+
 /**@brief Function for performing a battery measurement, and update the Battery Level characteristic in the Battery Service.
  */
 void battery_level_update(nrf_saadc_value_t value, uint16_t size) {

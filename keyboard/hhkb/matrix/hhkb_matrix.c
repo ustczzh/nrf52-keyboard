@@ -45,6 +45,10 @@ static matrix_row_t *matrix_prev;
 static matrix_row_t _matrix0[MATRIX_ROWS];
 static matrix_row_t _matrix1[MATRIX_ROWS];
 
+void led_set(uint8_t usb_led)
+{
+}
+
 
 void matrix_init(void)
 {

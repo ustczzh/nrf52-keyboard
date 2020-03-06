@@ -148,6 +148,9 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/components/toolchain/cmsis/include \
 	$(SDK_ROOT)/external/fprintf \
 	$(SDK_ROOT)/external/segger_rtt \
+	$(SDK_ROOT)/external/utf_converter \
+	$(SDK_ROOT)/integration/nrfx \
+	$(SDK_ROOT)/integration/nrfx/legacy \
 	$(SDK_ROOT)/modules/nrfx \
 	$(SDK_ROOT)/modules/nrfx/drivers/include \
 	$(SDK_ROOT)/modules/nrfx/drivers/src \
@@ -156,8 +159,6 @@ INC_FOLDERS += \
 	$(SDK_ROOT)/modules/nrfx/mdk \
 	$(SDK_ROOT)/modules/nrfx/soc \
 	$(SDK_ROOT)/modules/nrfx/templates \
-	$(SDK_ROOT)/integration/nrfx \
-	$(SDK_ROOT)/integration/nrfx/legacy
 
 
 ifeq ($(NRF_DEBUG), yes)
@@ -191,7 +192,7 @@ CFLAGS += -DNRF_DFU_TRANSPORT_BLE=1
 CFLAGS += -DNRF_SD_BLE_API_VERSION=6
 CFLAGS += -DSOFTDEVICE_PRESENT
 CFLAGS += -DSWI_DISABLE0
-CFLAGS += -DUSE_CUSTOM_CONFIG
+#CFLAGS += -DUSE_CUSTOM_CONFIG
 CFLAGS += -DPROTOCOL_NRF5
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
@@ -203,6 +204,7 @@ ifdef CONFIG_H
 #    CFLAGS += -DCONFIG_H_FILE=\"$(CONFIG_H)\"
     CFLAGS += -include $(CONFIG_H)
     CFLAGS += -include $(CONFIG_H1)
+    #CFLAGS += -include $(CONFIG_H2)
 endif
 
 # C++ flags common to all targets
@@ -221,11 +223,12 @@ ASMFLAGS += -DNRF_DFU_TRANSPORT_BLE=1
 ASMFLAGS += -DNRF_SD_BLE_API_VERSION=6
 ASMFLAGS += -DSOFTDEVICE_PRESENT
 ASMFLAGS += -DSWI_DISABLE0
-ASMFLAGS += -DUSE_CUSTOM_CONFIG
+#ASMFLAGS += -DUSE_CUSTOM_CONFIG
 ASMFLAGS += -DPROTOCOL_NRF5
 ifdef CONFIG_H
     ASFLAGS += -include $(CONFIG_H)
     ASFLAGS += -include $(CONFIG_H1)
+    #ASFLAGS += -include $(CONFIG_H2)
 endif
 
 
@@ -339,7 +342,7 @@ erase:
 pyocd_erase:
 	pyocd erase -t nrf52 -c
 
-SDK_CONFIG_FILE := ../config/sdk_config.h
+SDK_CONFIG_FILE := $(KEY_SRC_DIR)/pca10056/blank/config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
 sdk_config:
 	java -jar $(CMSIS_CONFIG_TOOL) $(SDK_CONFIG_FILE)
