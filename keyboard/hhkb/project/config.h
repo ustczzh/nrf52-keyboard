@@ -62,19 +62,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KEYBOARD_SLOW_SCAN_INTERVAL 100 // 慢速模式下，多久扫描一次键盘 (ms)
 #define LED_AUTOOFF_TIME 5 /* LED自动熄灭时长(s)，设为0则不自动熄灭 */
 
+// 键盘配置存储（FDS）
+//#define SAVE_KEYMAP /* 启用keymap存储 */
+#define SAVE_UNIMAP /* 启用unimap存储 */
+#define SAVE_MACRO  /* 启用宏存储功能 */
+#define SAVE_CONFIG /* 启用配置存储功能 */
+
 // 键盘额外功能
 #define DYNAMIC_TX_POWER /* 启用自动发射功率调整 */
+//#define HIGH_TX_POWER /* 更改发射功率到+4dBm */
 #define PASSKEY_REQUIRED /* 需要输入配对码 */
 #define ENABLE_WATCHDOG /* 启用看门狗 */
-//#define HIGH_TX_POWER /* 更改发射功率到+4dBm */
 #define MULTI_DEVICE_SWITCH  /*启用多设备切换 */
-//#define KEYMAP_STORAGE /* 启用keymap存储 */
-#define UNIMAP_STORAGE /* 启用unimap存储 */
 // #define MACRO_BLOCKING_MODE /* 在宏播放时禁用其他按键输入 */
-#define MACRO_STORAGE /* 启用宏存储功能 */
-#define CONFIG_STORAGE /* 启用配置存储功能 */
-
 // #define DEBUG_SKIP_PWRON_CHECK /*  直接开机而跳过开机条件检测，用于调试 */
+
 
 /* TMK固件内置功能 */
 /* disable action features */
