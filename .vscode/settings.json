@@ -168,7 +168,7 @@
         //"keyboard/hhkb/protocol/lufa_utils/LUFA/Drivers/USB",
         "keyboard/hhkb/protocol/usb",
         "keyboard/hhkb/protocol/usb/fixed",
-        "keyboard/hhkb/protocol/unimap",
+        "keyboard/hhkb/unimap",
         // "application/main/config",
         // "application/main/src",
         // "application/main/src/ble",
