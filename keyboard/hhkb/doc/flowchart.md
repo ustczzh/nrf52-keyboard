@@ -1,6 +1,6 @@
 # 流程图
 
-## 模板
+## chie4hao/qmk_firmware_nrf52840
 
 ```flow
 st=>start: Start
@@ -69,6 +69,7 @@ cond3(yes,bottom)->op3(left)->cond2
 
 ```
 
+## Lotlab/nrf52-keyboard
 
 ```flow
 op1=>operation: timers_init

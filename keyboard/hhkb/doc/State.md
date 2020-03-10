@@ -13,7 +13,7 @@ state "usb" as usb {
   usb.suspended --> usb.unattached
 
   state "idle" as usb.idle {
-    usb.idle --> usb.downloading : 
+    usb.idle --> usb.downloading : play
   }
 
   state "downloading" as usb.downloading {
