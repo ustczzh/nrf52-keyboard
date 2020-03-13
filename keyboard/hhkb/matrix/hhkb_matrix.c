@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "nrf_gpio.h"
 //#include "nrf_drv_clock.h"
 
+#include "bat.h"
 #include "hhkb_nrf5.h"
 
 #include "matrix.h"
@@ -156,7 +157,8 @@ uint8_t matrix_scan(void)
 //             USB_DeviceState == DEVICE_STATE_Unattached ) &&
             timer_elapsed32(matrix_last_modified) > MATRIX_POWER_SAVE) {
         KEY_POWER_OFF();
-        suspend_power_down();
+        //suspend_power_down();
+        sleep_mode_enter();
     }
     return 1;
 }

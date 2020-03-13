@@ -1,7 +1,7 @@
 #include <string.h>
 #include "eeprom.h"
 #include "fds.h"
-#include "nrf_log.h"
+//#include "nrf_log.h"
 
 #define FILE_ID 0x1000
 #define RECORD_KEY 0x1001
@@ -23,10 +23,12 @@ static fds_record_desc_t  record_desc = {0};
 static fds_record_t const record      = {.file_id = FILE_ID, .key = RECORD_KEY, .data.p_data = &buffer, .data.length_words = (EEPROM_SIZE + 3) / sizeof(uint32_t)};
 /* Array to map FDS return values to strings. */
 
+/* Array to map FDS errors to strings. */
 char const *fds_err_str[] = {
     "NRF_SUCCESS", "FDS_ERR_OPERATION_TIMEOUT", "FDS_ERR_NOT_INITIALIZED", "FDS_ERR_UNALIGNED_ADDR", "FDS_ERR_INVALID_ARG", "FDS_ERR_NULL_ARG", "FDS_ERR_NO_OPEN_RECORDS", "FDS_ERR_NO_SPACE_IN_FLASH", "FDS_ERR_NO_SPACE_IN_QUEUES", "FDS_ERR_RECORD_TOO_LARGE", "FDS_ERR_NOT_FOUND", "FDS_ERR_NO_PAGES", "FDS_ERR_USER_LIMIT_REACHED", "FDS_ERR_CRC_CHECK_FAILED", "FDS_ERR_BUSY", "FDS_ERR_INTERNAL",
-}; /* Array to map FDS events to strings. */
-static char const *fds_evt_str[] = {
+}; 
+/* Array to map FDS events to strings. */
+char const *fds_evt_str[] = {
     "FDS_EVT_INIT", "FDS_EVT_WRITE", "FDS_EVT_UPDATE", "FDS_EVT_DEL_RECORD", "FDS_EVT_DEL_FILE", "FDS_EVT_GC",
 };
 
@@ -52,7 +54,7 @@ void eeprom_update() {
 static bool volatile m_fds_initialized = false;
 
 static void fds_evt_handler(fds_evt_t const *p_evt) {
-    NRF_LOG_INFO("Event: %s received (%s)", fds_evt_str[p_evt->id], fds_err_str[p_evt->result]);
+    //NRF_LOG_INFO("Event: %s received (%s)", fds_evt_str[p_evt->id], fds_err_str[p_evt->result]);
 
     switch (p_evt->id) {
         case FDS_EVT_INIT:
@@ -62,8 +64,8 @@ static void fds_evt_handler(fds_evt_t const *p_evt) {
                 fds_stat_t stat = {0};
                 ret_code_t rc   = fds_stat(&stat);
                 APP_ERROR_CHECK(rc);
-                NRF_LOG_INFO("Found %d valid records.", stat.valid_records);
-                NRF_LOG_INFO("Found %d dirty records (ready to be garbage collected).", stat.dirty_records);
+                //NRF_LOG_INFO("Found %d valid records.", stat.valid_records);
+                //NRF_LOG_INFO("Found %d dirty records (ready to be garbage collected).", stat.dirty_records);
 
                 if (stat.dirty_records > 34) {
                     fds_gc();
@@ -73,23 +75,23 @@ static void fds_evt_handler(fds_evt_t const *p_evt) {
 
         case FDS_EVT_WRITE: {
             if (p_evt->result == NRF_SUCCESS) {
-                NRF_LOG_INFO("Record ID:\t0x%04x", p_evt->write.record_id);
-                NRF_LOG_INFO("File ID:\t0x%04x", p_evt->write.file_id);
-                NRF_LOG_INFO("Record key:\t0x%04x", p_evt->write.record_key);
+                //NRF_LOG_INFO("Record ID:\t0x%04x", p_evt->write.record_id);
+                //NRF_LOG_INFO("File ID:\t0x%04x", p_evt->write.file_id);
+                //NRF_LOG_INFO("Record key:\t0x%04x", p_evt->write.record_key);
             }
         } break;
 
         case FDS_EVT_DEL_RECORD: {
             if (p_evt->result == NRF_SUCCESS) {
-                NRF_LOG_INFO("Record ID:\t0x%04x", p_evt->del.record_id);
-                NRF_LOG_INFO("File ID:\t0x%04x", p_evt->del.file_id);
-                NRF_LOG_INFO("Record key:\t0x%04x", p_evt->del.record_key);
+                //NRF_LOG_INFO("Record ID:\t0x%04x", p_evt->del.record_id);
+                //NRF_LOG_INFO("File ID:\t0x%04x", p_evt->del.file_id);
+                //NRF_LOG_INFO("Record key:\t0x%04x", p_evt->del.record_key);
             }
         } break;
 
         case FDS_EVT_GC: {
             if (p_evt->result == NRF_SUCCESS) {
-                NRF_LOG_INFO("gc completed");
+                //NRF_LOG_INFO("gc completed");
             }
         }
 
@@ -110,7 +112,9 @@ static void power_manage(void) {
 static void eeprom_init(void) {
     ret_code_t rc;
 
-    (void)fds_register(fds_evt_handler);
+    rc=fds_register(fds_evt_handler);
+    APP_ERROR_CHECK(rc);
+    
     rc = fds_init();
     APP_ERROR_CHECK(rc);
 
@@ -119,13 +123,13 @@ static void eeprom_init(void) {
     }
 
     fds_find_token_t ftok = {0};
+    fds_flash_record_t flash_record = {0};
 
     memset(&ftok, 0x00, sizeof(fds_find_token_t));
+    memset(&flash_record, 0x00, sizeof(fds_flash_record_t));
+
     rc = fds_record_find(FILE_ID, RECORD_KEY, &record_desc, &ftok);
-
     if (rc == NRF_SUCCESS) {
-        fds_flash_record_t flash_record = {0};
-
         rc = fds_record_open(&record_desc, &flash_record);
         APP_ERROR_CHECK(rc);
 

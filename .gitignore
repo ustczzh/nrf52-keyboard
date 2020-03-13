@@ -6,6 +6,9 @@ JLinkLog.txt
 JLinkSettings.ini
 EventRecorderStub.scvd
 
+# ignore archieve
+archieve
+
 # ignore sdk
 #/SDK
 

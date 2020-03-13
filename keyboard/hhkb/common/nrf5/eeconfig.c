@@ -3,7 +3,7 @@
 #include "eeprom.h"
 #include "eeconfig.h"
 
-#ifdef SPI_FLASH_ENABLE
+#ifdef STM32_EEPROM_ENABLE
 #    include "hal.h"
 #    include "eeprom_stm32.h"
 #endif
@@ -96,6 +96,7 @@ uint8_t eeconfig_read_debug(void) { return eeprom_read_byte(EECONFIG_DEBUG); }
  * FIXME: needs doc
  */
 void eeconfig_update_debug(uint8_t val) { eeprom_update_byte(EECONFIG_DEBUG, val); }
+void eeconfig_write_debug(uint8_t val) { eeconfig_update_debug(val); }
 
 /** \brief eeconfig read default layer
  *
@@ -107,6 +108,7 @@ uint8_t eeconfig_read_default_layer(void) { return eeprom_read_byte(EECONFIG_DEF
  * FIXME: needs doc
  */
 void eeconfig_update_default_layer(uint8_t val) { eeprom_update_byte(EECONFIG_DEFAULT_LAYER, val); }
+void eeconfig_write_default_layer(uint8_t val)  { eeconfig_update_default_layer(val); }
 
 /** \brief eeconfig read keymap
  *
@@ -121,6 +123,7 @@ void eeconfig_update_keymap(uint16_t val) {
     eeprom_update_byte(EECONFIG_KEYMAP_LOWER_BYTE, val & 0xFF);
     eeprom_update_byte(EECONFIG_KEYMAP_UPPER_BYTE, (val >> 8) & 0xFF);
 }
+void eeconfig_write_keymap(uint16_t val) { eeconfig_update_keymap(val); }
 
 /** \brief eeconfig read backlight
  *
@@ -132,6 +135,7 @@ uint8_t eeconfig_read_backlight(void) { return eeprom_read_byte(EECONFIG_BACKLIG
  * FIXME: needs doc
  */
 void eeconfig_update_backlight(uint8_t val) { eeprom_update_byte(EECONFIG_BACKLIGHT, val); }
+void eeconfig_write_backlight(uint8_t val) { eeconfig_update_backlight(val); }
 
 /** \brief eeconfig read audio
  *
@@ -143,6 +147,7 @@ uint8_t eeconfig_read_audio(void) { return eeprom_read_byte(EECONFIG_AUDIO); }
  * FIXME: needs doc
  */
 void eeconfig_update_audio(uint8_t val) { eeprom_update_byte(EECONFIG_AUDIO, val); }
+void eeconfig_write_audio(uint8_t val) { eeconfig_update_audio(val); }
 
 /** \brief eeconfig read kb
  *
@@ -155,6 +160,7 @@ uint32_t eeconfig_read_kb(void) { return eeprom_read_dword(EECONFIG_KEYBOARD); }
  */
 
 void eeconfig_update_kb(uint32_t val) { eeprom_update_dword(EECONFIG_KEYBOARD, val); }
+void eeconfig_write_kb(uint32_t val) { eeconfig_update_kb(val); }
 /** \brief eeconfig read user
  *
  * FIXME: needs doc
@@ -165,6 +171,7 @@ uint32_t eeconfig_read_user(void) { return eeprom_read_dword(EECONFIG_USER); }
  * FIXME: needs doc
  */
 void eeconfig_update_user(uint32_t val) { eeprom_update_dword(EECONFIG_USER, val); }
+void eeconfig_write_user(uint32_t val) { eeconfig_update_user(val); }
 
 uint32_t eeconfig_read_haptic(void) { return eeprom_read_dword(EECONFIG_HAPTIC); }
 /** \brief eeconfig update user
@@ -172,3 +179,4 @@ uint32_t eeconfig_read_haptic(void) { return eeprom_read_dword(EECONFIG_HAPTIC);
  * FIXME: needs doc
  */
 void eeconfig_update_haptic(uint32_t val) { eeprom_update_dword(EECONFIG_HAPTIC, val); }
+void eeconfig_write_haptic(uint32_t val) { eeconfig_update_haptic(val); }

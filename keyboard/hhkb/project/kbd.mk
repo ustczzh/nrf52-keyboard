@@ -12,12 +12,9 @@ SRC_FILES +=  \
 	$(KEY_COMMON_PLATFORM_DIR)/suspend.c \
 	$(KEY_COMMON_PLATFORM_DIR)/timer.c \
 	$(KEY_COMMON_PLATFORM_DIR)/bootloader.c \
-	$(KEY_COMMON_PLATFORM_DIR)/nrf_fds.c \
     $(KEY_COMMON_PLATFORM_DIR)/eeconfig.c \
     $(KEY_COMMON_PLATFORM_DIR)/eeprom.c \
-	$(KEY_SRC_DIR)/main.c \
-	#$(KEY_COMMON_PLATFORM_DIR)/i2c_master.c \
-
+	$(KEY_SRC_DIR)/main.c 
 
 INC_FOLDERS +=  \
     $(KEY_COMMON_DIR) \

@@ -93,10 +93,15 @@ SRC_FILES += \
 	$(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c \
 	$(SDK_ROOT)/modules/nrfx/soc/nrfx_atomic.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_clock.c \
-	$(SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
+	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_power.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_saadc.c \
+	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_systick.c \
 	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_wdt.c \
-	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c
+	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c \
+	$(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_usbd.c \
+	$(SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
+	$(SDK_ROOT)/integration/nrfx/legacy/nrf_drv_clock.c \
+	$(SDK_ROOT)/integration/nrfx/legacy/nrf_drv_power.c
 
 
 # Include folders common to all targets

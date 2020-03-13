@@ -77,7 +77,6 @@
 #include "ble_service.h"
 #include "ble_hids_service.h"
 #include "outputselect.h"
-#include "i2c_master.h"
 
 uint8_t              keyboard_ble_led_stats = 0;
 static volatile bool ble_disable            = true; /**< Handle of the current connection. */
