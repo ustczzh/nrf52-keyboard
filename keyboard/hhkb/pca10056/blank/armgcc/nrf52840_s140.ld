@@ -6,53 +6,12 @@ GROUP(-lgcc -lc -lnosys)
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x27000, LENGTH = 0xd9000
-  RAM (rwx) :  ORIGIN = 0x20002260, LENGTH = 0x3dda0
+  RAM (rwx) :  ORIGIN = 0x20002df8, LENGTH = 0x3d208
 }
 
 SECTIONS
 {
 }
-
-/* Module init section */
-SECTIONS
-{
-  .modules_init :
-  {
-    PROVIDE(__start_modules_init = .);
-    KEEP(*(.modules_init))
-    PROVIDE(__stop_modules_init = .);
-  } > RAM
-  .adc_channel :
-  {
-    PROVIDE(__start_adc_channel = .);
-    KEEP(*(.adc_channel))
-    PROVIDE(__stop_adc_channel = .);
-  } > RAM
-  .config_def :
-  {
-    PROVIDE(__start_config_def = .);
-    KEEP(*(.config_def))
-    PROVIDE(__stop_config_def = .);
-  } > RAM
-  .hid_config :
-  {
-    PROVIDE(__start_hid_config = .);
-    KEEP(*(.hid_config))
-    PROVIDE(__stop_hid_config = .);
-  } > RAM
-  .fn_handler :
-  {
-    PROVIDE(__start_fn_handler = .);
-    KEEP(*(.fn_handler))
-    PROVIDE(__stop_fn_handler = .);
-  } > RAM
-  .host_driver :
-  {
-    PROVIDE(__start_host_driver = .);
-    KEEP(*(SORT(.host_driver*)))
-    PROVIDE(__stop_host_driver = .);
-  } > RAM
-} INSERT AFTER .data;
 
 SECTIONS
 {

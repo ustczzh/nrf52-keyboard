@@ -39,7 +39,7 @@ endif
 CFLAGS += -DS140
 ASMFLAGS += -DS140
 SOFTDEVICE_NAME := s140_nrf52_7.0.1_softdevice.hex
-SOFTDEVICE_VER  := 0xb7
+SOFTDEVICE_VER  := 0xca
 SOFTDEVICE_PATH := $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.0.1_softdevice.hex
 
 INC_FOLDERS += \
