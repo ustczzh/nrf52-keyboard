@@ -8,11 +8,11 @@ ifndef OUTPUT_DIRECTORY
 endif
 
 ifndef PROJ_DIR
-  PROJ_DIR := ../..
+  PROJ_DIR := ../../../project
 endif
 
 ifndef APP_PROJ_DIR
-  APP_PROJ_DIR := $(PROJ_DIR)/secure_bootloader
+  APP_PROJ_DIR := ../
 endif
 
 ifndef ROOT_DIR
