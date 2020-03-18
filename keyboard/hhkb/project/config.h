@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdint.h>
 
+#include "xenon.h"
+
 /* USB和蓝牙的显示参数 */
 #define VENDOR_ID 0x1209 /* USB VID */
 #define PRODUCT_ID 0x0514 /* USB PID */
@@ -30,29 +32,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CONF_PRODUCT_ID 0x0514 /* 配置项目内显示的ProductID */
 #define DEVICE_VER 0x0001 /* 硬件版本 */
 #define MANUFACTURER "ZZZ" /* 硬件制造商，用于蓝牙显示 */
-#define PRODUCT "BLE5 HHKB" /* 硬件名称，用于USB和蓝牙显示 */
-#define MACADDR_SEPRATOR '_' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
+#define PRODUCT_NAME "BLE5 HHKB" /* 硬件名称，用于USB和蓝牙显示 */
+// #define MACADDR_SEPRATOR '_' /* 蓝牙名称后地址的分隔符。若不设置则不显示蓝牙名称后面的地址 */
 
 /* 蓝牙 */
 #define BLUETOOTH_ENABLE
 
 /* USB HID report parameter */
-#define KEYBOARD_EPSIZE 8 /* 键盘上传端点大小，请不要修改 */
+// #define KEYBOARD_EPSIZE 8 /* 键盘上传端点大小，请不要修改 */
 #define NKRO_EPSIZE 28 /* 键盘NKRO端点大小，请不要修改 */
 // #define BLE_NKRO
 // Force NKRO
 // #define FORCE_NKRO
 // Enable watchdog
 // #define KBD_WDT_ENABLE
-#define MAX_ENDPOINTS 8
+// #define MAX_ENDPOINTS 8
 // #define NKRO_ENABLE
 // #define MOUSE_ENABLE
 // #define EXTRAKEY_ENABLE
 
 // 定义Bootmagic按键
 //#define BOOTMAGIC_ENABLE
-#define BOOTMAGIC_KEY_BOOT KC_U /* 开机 */
-#define BOOTMAGIC_KEY_ERASE_BOND KC_E /* 删除所有绑定 */
+// #define BOOTMAGIC_KEY_BOOT KC_U /* 开机 */
+// #define BOOTMAGIC_KEY_ERASE_BOND KC_E /* 删除所有绑定 */
 
 // 键盘省电参数
 #define SLEEP_SLOW_TIMEOUT 15 // 键盘闲置多久后转入慢速扫描模式 (s)
@@ -60,63 +62,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KEYBOARD_SCAN_INTERVAL 1 // 键盘最小时间单位TICK (ms)
 #define KEYBOARD_FAST_SCAN_INTERVAL 10 // 通常模式下，多久扫描一次键盘 (ms)
 #define KEYBOARD_SLOW_SCAN_INTERVAL 100 // 慢速模式下，多久扫描一次键盘 (ms)
-#define LED_AUTOOFF_TIME 5 /* LED自动熄灭时长(s)，设为0则不自动熄灭 */
-
-// 键盘配置存储（FDS）
-//#define SAVE_KEYMAP /* 启用keymap存储 */
-#define SAVE_UNIMAP /* 启用unimap存储 */
-#define SAVE_MACRO  /* 启用宏存储功能 */
-#define SAVE_CONFIG /* 启用配置存储功能 */
-
-// 键盘额外功能
-#define DYNAMIC_TX_POWER /* 启用自动发射功率调整 */
-//#define HIGH_TX_POWER /* 更改发射功率到+4dBm */
-#define PASSKEY_REQUIRED /* 需要输入配对码 */
-#define ENABLE_WATCHDOG /* 启用看门狗 */
-#define MULTI_DEVICE_SWITCH  /*启用多设备切换 */
-// #define MACRO_BLOCKING_MODE /* 在宏播放时禁用其他按键输入 */
-// #define DEBUG_SKIP_PWRON_CHECK /*  直接开机而跳过开机条件检测，用于调试 */
-
-
-/* TMK固件内置功能 */
-/* disable action features */
-//#define NO_ACTION_LAYER
-//#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
-//#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
-
-/* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
-/* Locking resynchronize hack */
-#define LOCKING_RESYNC_ENABLE
+// #define LED_AUTOOFF_TIME 5 /* LED自动熄灭时长(s)，设为0则不自动熄灭 */
 
 /* key combination for command */
 #define IS_COMMAND() ( \
     keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)))
 
-// LED 配置
-#define HAS_LED 0
-#define LED_NUM 22
-#define LED_CAPS 21
-#define LED_SCLK 23
-#define LED_POSITIVE // LED上拉驱动
-
-// USB UART 传输配置
-#define HAS_USB // 启用与CH554的通信支持
-#define HAS_USBD_NRF  // 启用nRF52840的usbd
-#define HAS_USB_HOST // 启用与MAX3421e的通信支持
-#define UART_RXD 17 // UART_RX口IO
-#define UART_TXD 18 // UART_TX口IO
-#define UART_DET 19 // UART 检测引脚，若此脚被拉低，则说明USB正在工作。若不配置则使用RX口作为检测引脚
-#define UART_BAUDRATE NRF_UART_BAUDRATE_115200 // 通信波特率，请不要修改
-
 // 电量检测配置
-#define BATTERY_ADC_PIN NRF_SAADC_INPUT_AIN0 // 电量检测引脚
+#define BATTERY_ADC_PIN NRF_SAADC_INPUT_AIN3 // 电量检测引脚
 
 // 充电检测配置
-#define PIN_CHARGING !UCC1 // CH554的充电检测。当UCC1拉低时表示正在充电
-#define PIN_STANDBY !UCC2 // CH554的充电检测。当UCC2拉低时表示充电完成。若不配置则只使用PIN_CHARGING作为是否充电的检测标志
+// #define PIN_CHARGING !UCC1 // CH554的充电检测。当UCC1拉低时表示正在充电
+// #define PIN_STANDBY !UCC2 // CH554的充电检测。当UCC2拉低时表示充电完成。若不配置则只使用PIN_CHARGING作为是否充电的检测标志
 
 // for HHKB only
 //#define HHKB_JP
@@ -131,16 +88,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #define MATRIX_COLS 8
 
-static const uint8_t row0_pin = 11;
-static const uint8_t row1_pin = 12;
-static const uint8_t row2_pin = 13;
-static const uint8_t col0_pin = 14;
-static const uint8_t col1_pin = 15;
-static const uint8_t col2_pin = 16;
-static const uint8_t col_sel_pin = 17;
-static const uint8_t hys_pin = 18;
-static const uint8_t key_pin = 19;
-static const uint8_t power_pin = 20;
+static const uint8_t power_pin = PIN_D8;
+static const uint8_t key_pin = PIN_D6;
+static const uint8_t hys_pin = PIN_D5;
+static const uint8_t row0_pin = PIN_D4;
+static const uint8_t row1_pin = PIN_D3;
+static const uint8_t row2_pin = PIN_D2;
+static const uint8_t col0_pin = PIN_A3;
+static const uint8_t col1_pin = PIN_A2;
+static const uint8_t col2_pin = PIN_A1;
+static const uint8_t col_sel_pin = PIN_A0;
 /**
  * @brief HHKB pin for nrf52840
  * row:     11,12,13
@@ -155,16 +112,8 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
     hys_pin };
 
 
-/* define if matrix has ghost */
-// #define MATRIX_HAS_GHOST /* 按键阵列是否出现Ghost Key，若没有加二极管则需要启用这个项目 */
 
-//#define DEBOUNCE 5 /* 硬件消抖次数，设置为0则不消抖 */
-//#define MATRIX_SCAN_DELAY_CYCLE 36 /* 按键扫描等待IO稳定的延时时长 */
-
-
-
-
-// NRF52840 pin map: ((port << 5) | (pin & 0x1F))
+// NRF52840 pin map: (((port) << 5) | ((pin) & 0x1F))
 #define MATRIX_ROW_PINS \
     { row0_pin, row1_pin, row2_pin }
 #define MATRIX_COL_PINS \
@@ -174,41 +123,7 @@ static const uint8_t hhkb_pin_array[HHKB_PIN_NUM] = {           \
 #define PERMISSVIE_HOLD
 #define IGNORE_MOD_TAP_INTERRUPT
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 150
-#define ONESHOT_TIMEOUT 120
-
-#define RGB_MATRIX_KEYPRESSES
-#define RGB_MATRIX_FRAMEBUFFER_EFFECTS
-#define RGB_MATRIX_LED_PROCESS_LIMIT 20
-#define RGB_MATRIX_LED_FLUSH_LIMIT 26
-#define DRIVER_ADDR_1 0b1010000
-#define DRIVER_ADDR_2 0b1010000
-
-#define DRIVER_COUNT 1
-#define DRIVER_1_LED_TOTAL 48
-#define DRIVER_LED_TOTAL DRIVER_1_LED_TOTAL
-
-#define DISABLE_RGB_MATRIX_ALPHAS_MODS
-#define DISABLE_RGB_MATRIX_GRADIENT_UP_DOWN
-#define DISABLE_RGB_MATRIX_BREATHING
-#define DISABLE_RGB_MATRIX_BAND_SAT
-#define DISABLE_RGB_MATRIX_BAND_PINWHEEL_SAT
-#define DISABLE_RGB_MATRIX_BAND_SPIRAL_SAT
-#define DISABLE_RGB_MATRIX_RAINDROPS
-#define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
-#define DISABLE_RGB_MATRIX_TYPING_HEATMAP
-#define DISABLE_RGB_MATRIX_DIGITAL_RAIN
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
-#define DISABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
-#define DISABLE_RGB_MATRIX_SPLASH
-#define DISABLE_RGB_MATRIX_SOLID_SPLASH
-
-// The pin number for SCL pin
-#define I2C1_SCL 15
-// The pin number for SDA pin
-#define I2C1_SDA 17
+#define TAPPING_TERM 300
+#define ONESHOT_TIMEOUT 300
 
 #endif
